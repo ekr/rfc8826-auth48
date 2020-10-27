@@ -218,13 +218,14 @@ ANSWER: either/or. Fixed in the text.
       <section anchor="sec.same-origin" numbered="true" toc="default">
         <name>Same-Origin Policy</name>
         <t>
-          Many other resources are accessible but isolated. For instance,
-          while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="XmlHttpRequest" format="default"/>)
-          those requests are not allowed to be made to any server, but rather solely
-          to the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
-          (although Cross-Origin Resource Sharing (CORS) <xref target="CORS" format="default"/> and WebSockets
+          Many other resources are accessible but isolated.
+          For instance,
+          while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="fetch" format="default"/>)
+          when requests are made to a server other than from the
+          the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
+          they not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="CORS" format="default"/> and WebSockets
           <xref target="RFC6455" format="default"/> provide an escape hatch from this restriction,
-          as described below).
+          as described below.
           This same-origin policy (SOP) prevents server A from mounting attacks
           on server B via the user's browser, which protects both the user
           (e.g., from misuse of his credentials) and server B (e.g., from
@@ -285,7 +286,7 @@ ANSWER: I think I just decided not to.
           write certain classes of applications. In particular, mash-ups, in which a script
           from origin A uses resources from origin B, can only be achieved via a certain amount of hackery.
           The W3C CORS spec <xref target="CORS" format="default"/> is a response to this
-          demand. In CORS, when a script from origin A executes what would otherwise be a forbidden
+          demand. In CORS, when a script from origin A executes a potentially unsafe
           cross-origin request, the browser instead contacts the target server to determine
           whether it is willing to allow cross-origin requests from A. If it is so willing,
           the browser then allows the request. This consent verification process is designed
@@ -1504,32 +1505,6 @@ Please provide a working and stable URL.
 Original:
  [SWF]      "SWF File Format Specification Version 19", April 2013. -->
 
-        <reference anchor="XmlHttpRequest" target="https://www.w3.org/TR/XMLHttpRequest/">
-          <front>
-            <title>XMLHttpRequest Level 2</title>
-            <author initials="A." surname="van Kesteren">
-              <organization/>
-            </author>
-            <date month="January" year="2012"/>
-          </front>
-        </reference>
-
-<!-- [rfced] Informative References:  The URL as provided for
-[XmlHttpRequest] in the original document -
-<http://www.w3.org/TR/XMLHttpRequest/> - steers to a page with the
-title "XMLHttpRequest Level 1," dated October 2016.  When we did a
-Google search for "XMLHttpRequest Level 2," we found
-<https://www.w3.org/TR/2012/WD-XMLHttpRequest-20120117/>, which is
-partially obscured by a red box that says "This version is
-outdated!"  The link in the box in turn steers to the October 2016
-"XMLHttpRequest Level 1" page.
-
-Please advise.
-
-Original:
- [XmlHttpRequest]
-            van Kesteren, A., "XMLHttpRequest Level 2", January 2012. -->
-
         <reference anchor="Fingerprinting" target="https://www.w3.org/TR/fingerprinting-guidance/#acknowledgement/">
           <front>
             <title>Fingerprinting Guidance for Web Specification Authors (Draft)</title>
@@ -1554,6 +1529,15 @@ Original:
 ANSWER: I think this: https://www.w3.org/TR/fingerprinting-guidance/
 
  -->
+
+        <reference anchor="fetch" target=" https://fetch.spec.whatwg.org/">
+          <front>                                       
+            <title>Fetch</title>
+            <author initials="A." surname="van Kesteren">
+              <organization/>
+            </author>
+          </front>
+        </reference>
 
         <reference anchor="OpenID" target="https://openid.net/specs/openid-connect-core-1_0.html">
           <front>
