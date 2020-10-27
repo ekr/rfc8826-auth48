@@ -5,7 +5,7 @@
      category="std" consensus="true" number="8826"
      docName="draft-ietf-rtcweb-security-12" ipr="pre5378Trust200902"
      obsoletes="" updates="" xml:lang="en" tocInclude="true" tocDepth="4"
-     symRefs="true" sortRefs="true" version="3"> 
+     symRefs="true" sortRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 2.34.0 -->
   <front>
     <title abbrev="WebRTC Security">Security Considerations for WebRTC</title>
@@ -35,13 +35,17 @@ the title) for use on https://www.rfc-editor.org/search. -->
 <!-- [rfced] In this cluster, we have been expanding WebRTC in the body of the
 document (but not the title) as Web Real-Time Communication.  Do you want to
 include this expansion somewhere, or is not needed with the current
-explanatory text? 
+explanatory text?
 
 Original (first occurrence):
    WebRTC is a protocol suite for use with real-time applications that
    can be deployed in browsers - "real time communication on the Web".
    This document defines the WebRTC threat model and analyzes the
    security threats of WebRTC in that model.
+
+
+ANSWER: I don't think this is necessary. One doesn't get here without
+having some context.
 -->
 
       <t>
@@ -63,7 +67,7 @@ Original (first occurrence):
         Web conferencing, and direct data transfer. Unlike most conventional real-time systems
         (e.g., SIP-based <xref target="RFC3261" format="default"/> soft
 	phones), WebRTC communications are directly controlled by some Web
-	server. A simple case is shown below. 
+	server. A simple case is shown below.
       </t>
       <figure anchor="fig.simple">
         <name>A Simple WebRTC System</name>
@@ -89,7 +93,7 @@ Original (first occurrence):
       </figure>
       <t>
         In the system shown in <xref target="fig.simple" format="default"/>, Alice and Bob both have
-        WebRTC-enabled browsers and they visit some Web server that operates a
+        WebRTC-enabled browsers and they visit some Web server which operates a
         calling service. Each of their browsers exposes standardized JavaScript
         (JS) calling APIs (implemented as browser built-ins)
         which are used by the Web server to set up a call between Alice and Bob.
@@ -113,7 +117,7 @@ Original (first occurrence):
         their knowledge, simply by placing a call to some recording service.
         More subtly, if the exposed APIs allow the server to instruct the
         browser to send arbitrary content, then they can be used to bypass
-        firewalls or mount DoS attacks. Any successful system
+        firewalls or mount denial-of-service (DoS) attacks. Any successful system
         will need to be resistant to this and other attacks.
       </t>
       <t>
@@ -166,7 +170,7 @@ Original (first occurrence):
       </t>
       <t>
         Conventionally, we refer to either Web attackers, who are able to induce
-        you to visit their sites but do not control the network, and network
+        you to visit their sites but do not control the network, or network
         attackers, who are able to control your network.
 
 <!-- [rfced] Section 3:  Should "network, and" be "network, or," or
@@ -175,7 +179,10 @@ should the word "either" be removed?
 Original:
  Conventionally, we refer to either web attackers, who are able to
  induce you to visit their sites but do not control the network, and
- network attackers, who are able to control your network. -->
+ network attackers, who are able to control your network. 
+
+ANSWER: either/or. Fixed in the text.
+-->
 
  Network attackers correspond
         to the <xref target="RFC3552" format="default"/> "Internet Threat Model". Note that in some
@@ -212,13 +219,13 @@ Original:
         <name>Same-Origin Policy</name>
         <t>
           Many other resources are accessible but isolated. For instance,
-          while scripts are allowed to make HTTP requests via the XMLHttpRequest() API (see <xref target="XmlHttpRequest" format="default"/>)
+          while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="XmlHttpRequest" format="default"/>)
           those requests are not allowed to be made to any server, but rather solely
-          to the same ORIGIN from whence the script came <xref target="RFC6454" format="default"/>
+          to the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
           (although Cross-Origin Resource Sharing (CORS) <xref target="CORS" format="default"/> and WebSockets
           <xref target="RFC6455" format="default"/> provide an escape hatch from this restriction,
           as described below).
-          This SAME-ORIGIN POLICY (SOP) prevents server A from mounting attacks
+          This same-origin policy (SOP) prevents server A from mounting attacks
           on server B via the user's browser, which protects both the user
           (e.g., from misuse of his credentials) and server B (e.g., from
           DoS attacks).
@@ -229,6 +236,8 @@ could use the <strong> element (Section 2.50 of RFC 7991)), or should
 we write them as "origin" (as used elsewhere in this document and
 this cluster) and "Same-Origin Policy" (as used elsewhere in this
 document and in several published RFCs)?
+
+ANSWER: made ORIGIN <strong> and downcased SOP.
 
 Also, per the "Gender-Specific Language" section of
 <https://www.rfc-editor.org/styleguide/part2/>, please let us know
@@ -245,21 +254,28 @@ Original "(as described below.)" has been fixed):
  restriction, as described below.)  This SAME ORIGIN POLICY (SOP)
  prevents server A from mounting attacks on server B via the user's
  browser, which protects both the user (e.g., from misuse of his
- credentials) and the server B (e.g., from DoS attack). -->
+ credentials) and the server B (e.g., from DoS attack). 
+
+ANSWER: Yes, please change the gender-specific language.
+
+ -->
 
         </t>
         <t>
           More generally, SOP forces scripts from each site to run in their own, isolated,
           sandboxes. While there are techniques to allow them to interact, those interactions
           generally must be mutually consensual (by each site) and are limited to certain
-          channels. For instance, multiple pages / browser panes from the same origin
+          channels. For instance, multiple pages/browser panes from the same origin
           can read each other's JS variables, but pages from different
 	  origins -- or
           even iframes from different origins on the same page -- cannot.
         </t>
 
 <!-- [rfced] Section 3.3:  We found a "TODO: Picture" comment in the
-XML file, just after the section title.  Is a diagram missing? -->
+XML file, just after the section title.  Is a diagram missing? 
+
+ANSWER: I think I just decided not to.
+-->
 
       </section>
       <section anchor="sec.cors-etc" numbered="true" toc="default">
@@ -314,7 +330,7 @@ XML file, just after the section title.  Is a diagram missing? -->
           In order for the user to
           make an intelligent decision about whether to allow a call
           (and hence his camera and microphone input to be routed somewhere),
-          he must understand who is requesting access, where the media
+          he must understand either who is requesting access, where the media
           is going, or both. As detailed below, there are two basic conceptual
           models:
         </t>
@@ -347,7 +363,7 @@ XML file, just after the section title.  Is a diagram missing? -->
           user's browser from being used to attack its local network.
           Thus, we need to ensure communications consent even if the
           site is not able to access the camera and microphone at
-          all (hence WebSockets's consent mechanism); similarly,
+          all (hence WebSockets's consent mechanism) and similarly,
           we need to be concerned with the site accessing the
           user's camera and microphone even if the data is to be
           sent back to the site via conventional HTTP-based network
@@ -366,7 +382,7 @@ XML file, just after the section title.  Is a diagram missing? -->
           </t>
           <t>
             The most obvious threats are simply those of "oversharing".
-            That is, the user may believe they are sharing a window when
+            I.e., the user may believe they are sharing a window when
             in fact they are sharing an application, or may forget they
             are sharing their whole screen, icons, notifications, and all.
             This is already an issue with existing screen sharing technologies
@@ -481,7 +497,7 @@ XML file, just after the section title.  Is a diagram missing? -->
           <t>
           Arguably, the origin is not fine-grained enough. Consider the situation where
           Alice visits a site and authorizes it to make a single call. If consent is
-          expressed solely in terms of the origin, then upon any future visit to that
+          expressed solely in terms of the origin, then on any future visit to that
           site (including one induced via a mash-up or ad network), the site can
           bug Alice's computer, use the computer to place bogus calls, etc.
           While in principle Alice could grant and then
@@ -529,7 +545,7 @@ XML file, just after the section title.  Is a diagram missing? -->
           the calling service will attempt to bug my computer, but I also want to be
           able to conveniently call my friends. If consent is tied to particular
           communications endpoints, then my risk is limited. Naturally, it
-          is somewhat challenging to design UI primitives that express this sort
+          is somewhat challenging to design UI primitives which express this sort
           of policy. The problem becomes even more challenging in multi-user
           calling cases.
           </t>
@@ -569,7 +585,7 @@ XML file, just after the section title.  Is a diagram missing? -->
           site, that JavaScript is executed in the security context of the page
           <xref target="finer-grained" format="default"/>. This could lead to compromise of a call
           even if the parent page is safe. Note: This issue is not restricted
-          to PAGES which contain untrusted content.
+          to <strong>pages</strong> which contain untrusted content.
 
 <!-- [rfced] Section 4.1.4:  Is "PAGES" capped for emphasis, or
 should it be "pages"?  (We see "a page" and "the page" used in nearby
@@ -578,7 +594,9 @@ the <strong> element (Section 2.50 of RFC 7991) here.
 
 Original:
  Note: this issue is not restricted to PAGES
- which contain untrusted content. -->
+ which contain untrusted content.
+
+ANSWER: yes, for emphasis. changed. -->
 
  If any page from a
           given origin ever loads JavaScript from an attacker, then it is
@@ -593,7 +611,7 @@ Original:
           As discussed in <xref target="sec.cors-etc" format="default"/>, allowing Web applications unrestricted network access
           via the browser introduces the risk of using the browser as an attack platform against
           machines which would not otherwise be accessible to the malicious
-	  site -- for
+	  site, for
           instance, because they are topologically restricted (e.g., behind a firewall or NAT).
           In order to prevent this form of attack as well as cross-protocol attacks, it is
           important to require that the target of traffic explicitly consent to receiving
@@ -745,12 +763,15 @@ reflexive".  Please let us know any objections.
 Original:
  The callee's server
  reflexive address reveals a lot of information about the callee's
- location. 
+ location.
 
 Currently:
  The callee's server-
  reflexive address reveals a lot of information about the callee's
- location. -->
+ location. 
+
+ANSWER: this is fine.
+-->
 
             In order to avoid tracking, implementations may wish to suppress
             the start of ICE negotiation until the callee has answered. In
@@ -795,7 +816,7 @@ Currently:
           While in principle it is possible for the browser to cut the calling service
           out of the loop and directly present trusted information (and perhaps get
           consent), practice in modern browsers is to avoid this whenever possible.
-          "In&nbhy;flow" modal dialogs which 
+          "In&nbhy;flow" modal dialogs which require the user to consent to specific
           actions are particularly disfavored as human factors research indicates
           that unless they are made extremely invasive, users simply agree to
           them without actually consciously giving consent <xref target="abarth-rtcweb" format="default"/>.
@@ -829,7 +850,7 @@ Currently:
           and why they are likely to be impractical in <xref target="sec.during-attack" format="default"/>.
         </t>
         <section anchor="sec.retrospective-compromise" numbered="true" toc="default">
-          <name>Protecting against Retrospective Compromise</name>
+          <name>Protecting Against Retrospective Compromise</name>
           <t>
             In a retrospective attack, the calling service was uncompromised during
             the call, but an attacker subsequently wants to recover the content of the
@@ -843,23 +864,26 @@ Currently:
 
 <!-- [rfced] Section 4.3.1:  We would like to expand "SDES" for ease
 of the reader.  Does SDES refer to "Security Description" here, or perhaps "Source Description" per
-several other documents in this cluster (e.g., RFC-to-be 8852 <draft-ietf-avtext-rid>)?  
+several other documents in this cluster (e.g., RFC-to-be 8852 <draft-ietf-avtext-rid>)?
 
 Original:
  If the calling service has access to the traffic keying material (as
- in SDES [RFC4568]), then retrospective attack is trivial. -->
+ in SDES [RFC4568]), then retrospective attack is trivial. 
 
-            This form of attack is particularly serious in the context of the Web because
+ANSWER: Fine.
+-->
+
+            This form of attack is particularly serious in the Web context because
             it is standard practice in Web services to run extensive logging and monitoring. Thus, it is highly
             likely that if the traffic key is part of any HTTP request it will be logged somewhere and thus
             subject to subsequent compromise. It is this consideration that makes an automatic, public key-based
             key exchange mechanism imperative for WebRTC (this is a good idea for any communications
-            security system), and this mechanism <bcp14>SHOULD</bcp14> provide Perfect Forward Secrecy (PFS).
-            The signaling channel / calling service can be used to authenticate this mechanism.
+            security system), and this mechanism <bcp14>SHOULD</bcp14> provide Forward Secrecy (FS).
+            The signaling channel/calling service can be used to authenticate this mechanism.
           </t>
           <t>
             In addition, if end-to-end keying is used,
-            the system <bcp14>MUST NOT</bcp14> provide any APIs to extract either long-term
+            the system <bcp14>MUST NOT</bcp14> provide any APIs to either extract either long-term
             keying material or to directly access any stored traffic keys.
 
 <!-- [rfced] Section 4.3.1:  To what does "either" refer in this
@@ -868,7 +892,10 @@ sentence?
 Original:
  In addition, if end-to-end keying is in used, the system MUST NOT
  provide any APIs to extract either long-term keying material or to
- directly access any stored traffic keys. -->
+ directly access any stored traffic keys. 
+
+ANSWER: moved either to make this clear.
+-->
 
             Otherwise, an attacker who subsequently compromised the calling service
             might be able to use those APIs to recover the traffic keys and thus
@@ -876,7 +903,7 @@ Original:
           </t>
         </section>
         <section anchor="sec.during-attack" numbered="true" toc="default">
-          <name>Protecting against During-Call Attack</name>
+          <name>Protecting Against During-Call Attack</name>
           <t>
             Protecting against attacks during a call is a more difficult proposition. Even
             if the calling service cannot directly access keying material (as recommended
@@ -947,13 +974,16 @@ case "(SAS) that is" would be correct)?
 
 Original:
  ZRTP [RFC6189] uses a "short authentication string" (SAS) which is
- derived from the key agreement protocol. -->
+ derived from the key agreement protocol.
+
+ANSWER: This is correct as is. One could imagine a short authentication string which was not derived from the AKE, one supposes.
+ -->
 
  This SAS is designed to be compared
               by the users (e.g., read aloud over the voice channel or
               transmitted via an out-of-band channel) and if confirmed by both sides precludes MITM
               attack. The intention is that the SAS is used once and then key
-              continuity (though a different mechanism from that discussed
+              continuity (though with a different mechanism from that discussed
               above) is used thereafter.
 
 <!-- [rfced] Section 4.3.2.2:  Should "though a different mechanism"
@@ -963,7 +993,10 @@ mechanism" here?
 Original:
  The intention is that the SAS is used
  once and then key continuity (though a different mechanism from that
- discussed above) is used thereafter. -->
+ discussed above) is used thereafter. 
+
+ANSWER: changed to "though with".
+-->
 
             </t>
             <t>
@@ -1012,7 +1045,7 @@ Original:
               (and nearly too cumbersome for administrators).
               However,
               a new generation of Web-based identity providers (BrowserID, Federated Google Login,
-              Facebook Connect, OAuth <xref target="RFC6749" format="default"/>, OpenID <xref target="OpenID" format="default"/>, WebFinger <xref target="RFC7033" format="default"/>) has recently been developed
+              Facebook Connect, OAuth <xref target="RFC6749" format="default"/>, OpenID <xref target="OpenID" format="default"/>, WebFinger <xref target="RFC7033" format="default"/>) has been developed
               and use Web technologies to provide lightweight (from the user's
               perspective) third-party authenticated transactions.
               It is possible to use systems of this type to authenticate WebRTC calls,
@@ -1055,7 +1088,7 @@ Original:
               that, it will be necessary to provide features whereby
               the site can verifiably give up access to the media streams.
               This verification must be possible both from the local
-              side and the remote side. That is, users must be able to verify
+              side and the remote side. I.e., users must be able to verify
               that the person called has engaged a secure media
               mode (see <xref target="sec.malicious" format="default"/>). In order to achieve this, it will be necessary to
               cryptographically bind an indication of the local media
@@ -1083,7 +1116,7 @@ Original:
             measures you employ the person you are talking to might record
             the call and publish it on the Internet. Similarly, we do
             not attempt to prevent them from using voice or video processing
-            technology from hiding or changing their appearance.
+            technology for hiding or changing their appearance.
             While technologies (Digital Rights Management (DRM), etc.) do exist to attempt to address
             these issues, they are generally not compatible with open
             systems and WebRTC does not address them.
@@ -1094,8 +1127,13 @@ or changing their appearance" mean "from using voice or video
 processing technology to hide or change their appearance," or
 something else?
 
+ANSWER: "for hiding or changing"
+
 Also, for ease of the reader, we expanded "DRM" as "Digital Rights
 Management."  Please let us know if this is incorrect.
+
+ANSWER: Fine.
+
 
 Original:
  Similarly, we do not attempt to
@@ -1257,12 +1295,14 @@ different each time)...&attredirects=0>.
 Is
 <http://rtc-web.alvestrand.com/home/papers/barth-security-prompt.pdf?attredirects=0>
 considered the most stable URL available?  Or, should the URL not be included
-at all? 
+at all?
+
+ANSWER: the url you propose seems fine
 
 Original:
         <format
 	    target="http://rtc-web.alvestrand.com/home/papers/barth-security-prompt.pdf?attredirects=0\
-" type="PDF"/> 
+" type="PDF"/>
 -->
 
         <reference anchor="whitten-johnny" target="https://www.usenix.org/legacy/publications/library/proceedings/sec99/whitten.html">
@@ -1344,7 +1384,11 @@ Suggested:
             and Residual Prediction", Proceedings of the 2001 IEEE
             International Conference on Acoustics, Speech, and Signal
             Processing (ICASSP), DOI 10.1109/ICASSP.2001.941039, May
-            2001, <https://ieeexplore.ieee.org/document/941039>. -->
+            2001, <https://ieeexplore.ieee.org/document/941039>. 
+
+ANSWER: This is fine.
+
+-->
 
         <reference anchor="farrus-conversion">
           <front>
@@ -1401,7 +1445,7 @@ Suggested:
 
 <!-- [rfced] Is the [CORS] reference still correct?  Should this document
 instead refer to <https://fetch.spec.whatwg.org/>?  Perhaps
-<https://fetch.spec.whatwg.org/#http-cors-protocol>, more specifically? 
+<https://fetch.spec.whatwg.org/#http-cors-protocol>, more specifically?
 
 Original:
    [CORS]     van Kesteren, A., "Cross-Origin Resource Sharing", January
@@ -1409,10 +1453,10 @@ Original:
 
 When we search for this document, we find this link
 <https://www.w3.org/TR/2009/WD-cors-20090317/>, which gives the following
-warning: 
+warning:
 
    This version is outdated!
-   For the latest version, please look at https://www.w3.org/TR/cors/. 
+   For the latest version, please look at https://www.w3.org/TR/cors/.
 
 <https://www.w3.org/TR/cors/> redirects to <https://fetch.spec.whatwg.org/>.
 
@@ -1421,12 +1465,14 @@ On <https://fetch.spec.whatwg.org/>, the reference for [CORS] refers back to
 
 [CORS]
     Anne van Kesteren. Cross-Origin Resource Sharing. 2 June 2020. REC. URL:
-    https://www.w3.org/TR/cors/ 
+    https://www.w3.org/TR/cors/
 
 <https://www.w3.org/TR/2020/SPSD-cors-20200602/> says that new implementations
 should follow the "Fetch API Living Standard".
 
-Please review and let us know if any updates are needed. 
+Please review and let us know if any updates are needed.
+
+ANSWER: yes, please refer to 
 -->
 
         <reference anchor="CORS">
@@ -1447,7 +1493,7 @@ Please review and let us know if any updates are needed.
           </front>
         </reference>
 
-<!-- [rfced] Informative References:  
+<!-- [rfced] Informative References:
 The URL provided for [SWF] in the original XML file -
 <http://www.adobe.com/content/dam/Adobe/en/devnet/swf/pdf/
 swf_file_format_spec_v10.pdf> - steers to
@@ -1496,15 +1542,18 @@ Original:
 [Fingerprinting] in the original XML file -
 <https://www.w3.org/TR/fingerprinting-guidance/#acknowledgement/> -
 steers to a document with the title "Mitigating Browser
-Fingerprinting in Web Specifications."  Should the reference be updated?  If 
-not, please provide the correct URL for the document listed below - perhaps 
+Fingerprinting in Web Specifications."  Should the reference be updated?  If
+not, please provide the correct URL for the document listed below - perhaps
 <https://www.w3.org/standards/history/fingerprinting-guidance> or
-<https://www.w3.org/TR/fingerprinting-guidance/>? 
+<https://www.w3.org/TR/fingerprinting-guidance/>?
 
 Original:
  [Fingerprinting]
             "Fingerprinting Guidance for Web Specification Authors
-            (Draft)", November 2013. -->
+            (Draft)", November 2013.
+ANSWER: I think this: https://www.w3.org/TR/fingerprinting-guidance/
+
+ -->
 
         <reference anchor="OpenID" target="https://openid.net/specs/openid-connect-core-1_0.html">
           <front>
@@ -1544,15 +1593,26 @@ Original:
   </back>
 
 <!-- [rfced] Please let us know how/if the following should be made
-consistent: 
+consistent:
 
- iframe / IFRAME (also per draft-ietf-rtcweb-security-arch) 
+ iframe / IFRAME (also per draft-ietf-rtcweb-security-arch)
+
+ANSWER: IFRAME
+
 
  calling-service.example.com/ vs. calling-service.example.com
    (We also see "http://anything.example.org/".)
 
+ANSWER: Is there a reason for this to be consistent?
+
+
  CROSS-PROTOCOL attacks (Section 3.3) /
    cross-protocol attacks (Section 4.2)   Is the capitalization
-     supposed to indicate emphasis? -->
+   supposed to indicate emphasis?
+
+ANSWER: Yes.
+ -->
+
+
 
 </rfc>
