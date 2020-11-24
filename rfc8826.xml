@@ -151,7 +151,8 @@
       <t>
         Conventionally, we refer to either Web attackers, who are able to induce
         you to visit their sites but do not control the network, or network
-        attackers, who are able to control your network.  Network attackers correspond
+        attackers, who are able to control your network.
+        Network attackers correspond
         to the <xref target="RFC3552" format="default"/> "Internet Threat Model". Note that in some
         cases, a network attacker is also a Web attacker, since transport protocols
         that do not provide integrity protection allow the network to inject traffic
@@ -188,7 +189,7 @@
           Many other resources are accessible but isolated.
           For instance,
           while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="fetch" format="default"/>)
-          when requests are made to a server other than from 
+          when requests are made to a server other than from
           the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
           they are not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="fetch" format="default"/> and WebSockets
           <xref target="RFC6455" format="default"/> provide an escape hatch from this restriction,
@@ -852,12 +853,11 @@
             </t>
             <t>
               Unfortunately, the SAS does not offer a practical solution to the
-              problem of a compromised calling service.	"Voice conversion" systems, which modify
-              voice from one speaker to make it sound like another,
-              are an active area of research.
-              These systems are already good enough to fool both
-              automatic recognition systems <xref target="farrus-conversion" format="default"/> and
-              humans <xref target="kain-conversion" format="default"/> in many cases, and are of course likely
+              problem of a compromised calling service. "Voice cloning" systems,
+              which mimic the voice of a given speaker
+              are an active area of research  <xref target="deepfakes-ftc"/>. and are already being used in
+              real-world attacks <xref target="deepfakes-fraud"/>
+              These attacks are likely
               to improve in future, especially in an environment where the user just wants
               to get on with the phone call.
               Thus, even if the SAS is effective today, it is likely not to be so for much longer.
@@ -1141,38 +1141,25 @@
         <refcontent>Proceedings of the 18th USENIX Security Symposium</refcontent>
         </reference>
 
-        <reference anchor="kain-conversion" target="https://ieeexplore.ieee.org/document/941039">
-          <front>
-            <title>Design and Evaluation of a Voice Conversion Algorithm based
-	    on Spectral Envelope Mapping and Residual Prediction</title>
-            <author initials="A." surname="Kain">
+        <reference anchor="deepfakes-ftc" target="https://www.theverge.com/2020/1/29/21080553/ftc-deepfakes-audio-cloning-joe-rogan-phone-scams">
+        <front>
+          <title>FTC says the tech behind audio deepfakes is getting better</title>
+          <author initials="K." surname="Lyons">
               <organization/>
             </author>
-            <author initials="M." surname="Macon">
-              <organization/>
-            </author>
-            <date month="May" year="2001"/>
-          </front>
-            <seriesInfo name="DOI" value="10.1109/ICASSP.2001.941039"/>
-          <refcontent>Proceedings of the 2001 IEEE International Conference on
-	  Acoustics, Speech, and Signal Processing (ICASSP)</refcontent>
-        </reference>
+            <date month="January" year="2020"/>
+            </front>
+          </reference>
 
-        <reference anchor="farrus-conversion">
-          <front>
-            <title>Speaker Recognition Robustness to Voice Conversion</title>
-            <author initials="M." surname="Farrus">
-              <organization/>
+        <reference anchor="deepfakes-fraud" target="https://www.theverge.com/2019/9/5/20851248/deepfakes-ai-fake-audio-phone-calls-thieves-trick-companies-stealing-money">
+        <front>
+          <title>Thieves are now using AI deepfakes to trick companies into sending them money</title>
+          <author initials="N." surname="Statt">
+             <organization/>
             </author>
-            <author initials="D." surname="Erro">
-              <organization/>
-            </author>
-            <author initials="J." surname="Hernando">
-              <organization/>
-            </author>
-            <date month="January" year="2008"/>
-          </front>
-        </reference>
+            <date month="September" year="2019"/>
+            </front>
+          </reference>
 
         <reference anchor="huang-w2sp">
           <front>
@@ -1228,7 +1215,7 @@
         </reference>
 
         <reference anchor="fetch" target=" https://fetch.spec.whatwg.org/">
-          <front>                                       
+          <front>
             <title>Fetch</title>
             <author initials="A." surname="van Kesteren">
               <organization/>
