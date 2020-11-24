@@ -179,7 +179,7 @@ should the word "either" be removed?
 Original:
  Conventionally, we refer to either web attackers, who are able to
  induce you to visit their sites but do not control the network, and
- network attackers, who are able to control your network. 
+ network attackers, who are able to control your network.
 
 ANSWER: either/or. Fixed in the text.
 -->
@@ -255,7 +255,7 @@ Original "(as described below.)" has been fixed):
  restriction, as described below.)  This SAME ORIGIN POLICY (SOP)
  prevents server A from mounting attacks on server B via the user's
  browser, which protects both the user (e.g., from misuse of his
- credentials) and the server B (e.g., from DoS attack). 
+ credentials) and the server B (e.g., from DoS attack).
 
 ANSWER: Yes, please change the gender-specific language.
 
@@ -273,7 +273,7 @@ ANSWER: Yes, please change the gender-specific language.
         </t>
 
 <!-- [rfced] Section 3.3:  We found a "TODO: Picture" comment in the
-XML file, just after the section title.  Is a diagram missing? 
+XML file, just after the section title.  Is a diagram missing?
 
 ANSWER: I think I just decided not to.
 -->
@@ -769,7 +769,7 @@ Original:
 Currently:
  The callee's server-
  reflexive address reveals a lot of information about the callee's
- location. 
+ location.
 
 ANSWER: this is fine.
 -->
@@ -869,7 +869,7 @@ several other documents in this cluster (e.g., RFC-to-be 8852 <draft-ietf-avtext
 
 Original:
  If the calling service has access to the traffic keying material (as
- in SDES [RFC4568]), then retrospective attack is trivial. 
+ in SDES [RFC4568]), then retrospective attack is trivial.
 
 ANSWER: Fine.
 -->
@@ -893,7 +893,7 @@ sentence?
 Original:
  In addition, if end-to-end keying is in used, the system MUST NOT
  provide any APIs to extract either long-term keying material or to
- directly access any stored traffic keys. 
+ directly access any stored traffic keys.
 
 ANSWER: moved either to make this clear.
 -->
@@ -994,7 +994,7 @@ mechanism" here?
 Original:
  The intention is that the SAS is used
  once and then key continuity (though a different mechanism from that
- discussed above) is used thereafter. 
+ discussed above) is used thereafter.
 
 ANSWER: changed to "though with".
 -->
@@ -1002,12 +1002,11 @@ ANSWER: changed to "though with".
             </t>
             <t>
               Unfortunately, the SAS does not offer a practical solution to the
-              problem of a compromised calling service.	"Voice conversion" systems, which modify
-              voice from one speaker to make it sound like another,
-              are an active area of research.
-              These systems are already good enough to fool both
-              automatic recognition systems <xref target="farrus-conversion" format="default"/> and
-              humans <xref target="kain-conversion" format="default"/> in many cases, and are of course likely
+              problem of a compromised calling service. "Voice cloning" systems,
+              which mimic the voice of a given speaker
+              are an active area of research  <xref target="deepfakes-ftc"/>. and are already being used in
+              real-world attacks <xref target="deepfakes-fraud"/>
+              These attacks are likely
               to improve in future, especially in an environment where the user just wants
               to get on with the phone call.
               Thus, even if the SAS is effective today, it is likely not to be so for much longer.
@@ -1343,69 +1342,25 @@ Original:
         <refcontent>Proceedings of the 18th USENIX Security Symposium</refcontent>
         </reference>
 
-        <reference anchor="kain-conversion">
-          <front>
-            <title>Design and Evaluation of a Voice Conversion Algorithm based
-	    on Spectral Envelope Mapping and Residual Prediction</title>
-            <author initials="A." surname="Kain">
+        <reference anchor="deepfakes-ftc" target="https://www.theverge.com/2020/1/29/21080553/ftc-deepfakes-audio-cloning-joe-rogan-phone-scams">
+        <front>
+          <title>FTC says the tech behind audio deepfakes is getting better</title>
+          <author initials="K." surname="Lyons">
               <organization/>
             </author>
-            <author initials="M." surname="Macon">
-              <organization/>
+            <date month="January" year="2020"/>
+            </front>
+          </reference>
+
+        <reference anchor="deepfakes-fraud" target="https://www.theverge.com/2019/9/5/20851248/deepfakes-ai-fake-audio-phone-calls-thieves-trick-companies-stealing-money">
+        <front>
+          <title>Thieves are now using AI deepfakes to trick companies into sending them money</title>
+          <author initials="N." surname="Statt">
+             <organization/>
             </author>
-            <date month="May" year="2001"/>
-          </front>
-            <seriesInfo name="DOI" value="10.1109/ICASSP.2001.941039"/>
-          <refcontent>Proceedings of the 2001 IEEE International Conference on
-	  Acoustics, Speech, and Signal Processing (ICASSP)</refcontent>
-        </reference>
-
-<!-- [rfced] References:  May we update [kain-conversion] as follows?
-
-Original:
- [kain-conversion]
-            Kain, A. and M. Macon, "Design and Evaluation of a Voice
-            Conversion Algorithm based on Spectral Envelope Mapping
-            and Residual Prediction",  Proceedings of ICASSP, May
-            2001, May 2001.
-
-Currently (URL added during conversion to xml2rfc v3):
- [kain-conversion]
-            Kain, A. and M. Macon, "Design and Evaluation of a Voice
-            Conversion Algorithm based on Spectral Envelope Mapping
-            and Residual Prediction", Proceedings of the 2001 IEEE
-            International Conference on Acoustics, Speech, and Signal
-            Processing (ICASSP), DOI 10.1109/ICASSP.2001.941039, May
-            2001, <https://doi.org/10.1109/ICASSP.2001.941039>.
-
-Suggested:
- [kain-conversion]
-            Kain, A. and M. Macon, "Design and Evaluation of a Voice
-            Conversion Algorithm based on Spectral Envelope Mapping
-            and Residual Prediction", Proceedings of the 2001 IEEE
-            International Conference on Acoustics, Speech, and Signal
-            Processing (ICASSP), DOI 10.1109/ICASSP.2001.941039, May
-            2001, <https://ieeexplore.ieee.org/document/941039>. 
-
-ANSWER: This is fine.
-
--->
-
-        <reference anchor="farrus-conversion">
-          <front>
-            <title>Speaker Recognition Robustness to Voice Conversion</title>
-            <author initials="M." surname="Farrus">
-              <organization/>
-            </author>
-            <author initials="D." surname="Erro">
-              <organization/>
-            </author>
-            <author initials="J." surname="Hernando">
-              <organization/>
-            </author>
-            <date month="January" year="2008"/>
-          </front>
-        </reference>
+            <date month="September" year="2019"/>
+            </front>
+          </reference>
 
         <reference anchor="huang-w2sp">
           <front>
@@ -1473,7 +1428,7 @@ should follow the "Fetch API Living Standard".
 
 Please review and let us know if any updates are needed.
 
-ANSWER: yes, please refer to 
+ANSWER: yes, updated.
 -->
 
         <reference anchor="CORS">
@@ -1531,7 +1486,7 @@ ANSWER: I think this: https://www.w3.org/TR/fingerprinting-guidance/
  -->
 
         <reference anchor="fetch" target=" https://fetch.spec.whatwg.org/">
-          <front>                                       
+          <front>
             <title>Fetch</title>
             <author initials="A." surname="van Kesteren">
               <organization/>
