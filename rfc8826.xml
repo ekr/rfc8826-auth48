@@ -223,7 +223,7 @@ ANSWER: either/or. Fixed in the text.
           while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="fetch" format="default"/>)
           when requests are made to a server other than from the
           the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
-          they not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="CORS" format="default"/> and WebSockets
+          they are not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="CORS" format="default"/> and WebSockets
           <xref target="RFC6455" format="default"/> provide an escape hatch from this restriction,
           as described below.
           This same-origin policy (SOP) prevents server A from mounting attacks
