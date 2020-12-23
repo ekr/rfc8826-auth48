@@ -578,15 +578,13 @@
           <t>
             Once consent is verified, there still is some concern about misinterpretation
             attacks as described by Huang et al. <xref target="huang-w2sp" format="default"/>.
-            Where TCP is used, the risk is substantial due to the potential
-            presence of transparent proxies; therefore, if TCP is to be used,
-            then WebSockets-style masking <bcp14>MUST</bcp14> be employed.
-          </t>
-          <t>
-            Since DTLS (with the anti-chosen plaintext mechanisms required by
-            TLS 1.1) does not allow the attacker to generate predictable
-            ciphertext, there is no need for masking of protocols running over
-            DTLS (e.g., SCTP over DTLS, UDP over DTLS, etc.).
+            This does not seem like it is of serious concern with DTLS because
+            the ICE handshake enforces receiver consent and there is little evidence
+            of passive DTLS proxies of the type studied by Huang. However, because
+            RTCWEB can run over TCP there is some concern that attackers might
+            control the ciphertext by controlling the plaintext input to SCTP.
+            This risk is somewhat mitigated by the fact that the SCTP stack controls
+            the framing of the packets.
           </t>
           <t>
             Note that in principle an attacker could exert some control
