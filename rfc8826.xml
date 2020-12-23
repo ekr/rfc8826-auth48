@@ -24,29 +24,9 @@
         <email>ekr@rtfm.com</email>
       </address>
     </author>
-    <date month="October" year="2020"/>
-
-<!-- [rfced] Please insert any keywords (beyond those that appear in
-the title) for use on https://www.rfc-editor.org/search. -->
-    <keyword>example</keyword>
+    <date month="December" year="2020"/>
 
     <abstract>
-
-<!-- [rfced] In this cluster, we have been expanding WebRTC in the body of the
-document (but not the title) as Web Real-Time Communication.  Do you want to
-include this expansion somewhere, or is not needed with the current
-explanatory text?
-
-Original (first occurrence):
-   WebRTC is a protocol suite for use with real-time applications that
-   can be deployed in browsers - "real time communication on the Web".
-   This document defines the WebRTC threat model and analyzes the
-   security threats of WebRTC in that model.
-
-
-ANSWER: I don't think this is necessary. One doesn't get here without
-having some context.
--->
 
       <t>
         WebRTC is a protocol suite for use with
@@ -171,20 +151,7 @@ having some context.
       <t>
         Conventionally, we refer to either Web attackers, who are able to induce
         you to visit their sites but do not control the network, or network
-        attackers, who are able to control your network.
-
-<!-- [rfced] Section 3:  Should "network, and" be "network, or," or
-should the word "either" be removed?
-
-Original:
- Conventionally, we refer to either web attackers, who are able to
- induce you to visit their sites but do not control the network, and
- network attackers, who are able to control your network.
-
-ANSWER: either/or. Fixed in the text.
--->
-
- Network attackers correspond
+        attackers, who are able to control your network.  Network attackers correspond
         to the <xref target="RFC3552" format="default"/> "Internet Threat Model". Note that in some
         cases, a network attacker is also a Web attacker, since transport protocols
         that do not provide integrity protection allow the network to inject traffic
@@ -221,46 +188,15 @@ ANSWER: either/or. Fixed in the text.
           Many other resources are accessible but isolated.
           For instance,
           while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="fetch" format="default"/>)
-          when requests are made to a server other than from the
+          when requests are made to a server other than from 
           the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
-          they are not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="CORS" format="default"/> and WebSockets
+          they are not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="fetch" format="default"/> and WebSockets
           <xref target="RFC6455" format="default"/> provide an escape hatch from this restriction,
           as described below.
           This same-origin policy (SOP) prevents server A from mounting attacks
           on server B via the user's browser, which protects both the user
-          (e.g., from misuse of his credentials) and server B (e.g., from
+          (e.g., from misuse of their credentials) and server B (e.g., from
           DoS attacks).
-
-<!-- [rfced] Section 3.2:  Are "ORIGIN" and "SAME ORIGIN POLICY"
-written in all capitals for emphasis (in which case perhaps we
-could use the <strong> element (Section 2.50 of RFC 7991)), or should
-we write them as "origin" (as used elsewhere in this document and
-this cluster) and "Same-Origin Policy" (as used elsewhere in this
-document and in several published RFCs)?
-
-ANSWER: made ORIGIN <strong> and downcased SOP.
-
-Also, per the "Gender-Specific Language" section of
-<https://www.rfc-editor.org/styleguide/part2/>, please let us know
-if we may change instances of "his," "him," "himself," and "he" to
-"their," "them," "themselves," and "they."
-
-Original "(as described below.)" has been fixed):
- For instance,
- while scripts are allowed to make HTTP requests via the
- XMLHttpRequest() API (see [XmlHttpRequest]) those requests are not
- allowed to be made to any server, but rather solely to the same
- ORIGIN from whence the script came [RFC6454] (although CORS [CORS]
- and WebSockets [RFC6455] provide an escape hatch from this
- restriction, as described below.)  This SAME ORIGIN POLICY (SOP)
- prevents server A from mounting attacks on server B via the user's
- browser, which protects both the user (e.g., from misuse of his
- credentials) and the server B (e.g., from DoS attack).
-
-ANSWER: Yes, please change the gender-specific language.
-
- -->
-
         </t>
         <t>
           More generally, SOP forces scripts from each site to run in their own, isolated,
@@ -269,14 +205,8 @@ ANSWER: Yes, please change the gender-specific language.
           channels. For instance, multiple pages/browser panes from the same origin
           can read each other's JS variables, but pages from different
 	  origins -- or
-          even iframes from different origins on the same page -- cannot.
+          even IFRAMEs from different origins on the same page -- cannot.
         </t>
-
-<!-- [rfced] Section 3.3:  We found a "TODO: Picture" comment in the
-XML file, just after the section title.  Is a diagram missing?
-
-ANSWER: I think I just decided not to.
--->
 
       </section>
       <section anchor="sec.cors-etc" numbered="true" toc="default">
@@ -285,7 +215,7 @@ ANSWER: I think I just decided not to.
           While SOP serves an important security function, it also makes it inconvenient to
           write certain classes of applications. In particular, mash-ups, in which a script
           from origin A uses resources from origin B, can only be achieved via a certain amount of hackery.
-          The W3C CORS spec <xref target="CORS" format="default"/> is a response to this
+          The W3C CORS spec <xref target="fetch" format="default"/> is a response to this
           demand. In CORS, when a script from origin A executes a potentially unsafe
           cross-origin request, the browser instead contacts the target server to determine
           whether it is willing to allow cross-origin requests from A. If it is so willing,
@@ -330,8 +260,8 @@ ANSWER: I think I just decided not to.
         <t>
           In order for the user to
           make an intelligent decision about whether to allow a call
-          (and hence his camera and microphone input to be routed somewhere),
-          he must understand either who is requesting access, where the media
+          (and hence their camera and microphone input to be routed somewhere),
+          they must understand either who is requesting access, where the media
           is going, or both. As detailed below, there are two basic conceptual
           models:
         </t>
@@ -529,11 +459,11 @@ ANSWER: I think I just decided not to.
           The other two options are designed to restrict calls to a given target.
           Callee-oriented consent provided by the calling site
           would not work well because a malicious site can claim that the
-          user is calling any user of his choice. One fix for this is to tie calls to a
+          user is calling any user of their choice. One fix for this is to tie calls to a
           cryptographically established identity. While not suitable for all cases,
           this approach may be useful for some. If we consider the case
           of advertising, it's not particularly convenient
-          to require the advertiser to instantiate an iframe on the hosting site just
+          to require the advertiser to instantiate an IFRAME on the hosting site just
           to get permission; a more convenient approach is to cryptographically tie
           the advertiser's certificate to the communication directly. We're still
           tying permissions to the origin here, but to the media origin (and/or destination)
@@ -568,12 +498,12 @@ ANSWER: I think I just decided not to.
             <li>The attacker modifies my HTTP connection to inject an IFRAME (or a redirect)
             to &lt;http://calling-service.example.com&gt;.</li>
             <li>The attacker forges the response from &lt;http://calling-service.example.com/&gt; to
-            inject JS to initiate a call to himself.</li>
+            inject JS to initiate a call to themselves.</li>
           </ol>
 
           <t>
           Note that this attack does not depend on the media being insecure. Because the
-          call is to the attacker, it is also encrypted to him. Moreover, it need not
+          call is to the attacker, it is also encrypted to them. Moreover, it need not
           be executed immediately; the attacker can "infect" the origin semi-permanently
           (e.g., with a Web worker or a popped-up window that is hidden under the main window)
           and thus be able to bug me long
@@ -587,18 +517,6 @@ ANSWER: I think I just decided not to.
           <xref target="finer-grained" format="default"/>. This could lead to compromise of a call
           even if the parent page is safe. Note: This issue is not restricted
           to <strong>pages</strong> which contain untrusted content.
-
-<!-- [rfced] Section 4.1.4:  Is "PAGES" capped for emphasis, or
-should it be "pages"?  (We see "a page" and "the page" used in nearby
-text in this section.)  If emphasis is desired, perhaps we could use
-the <strong> element (Section 2.50 of RFC 7991) here.
-
-Original:
- Note: this issue is not restricted to PAGES
- which contain untrusted content.
-
-ANSWER: yes, for emphasis. changed. -->
-
  If any page from a
           given origin ever loads JavaScript from an attacker, then it is
           possible for that attacker to infect the browser's notion of that
@@ -624,7 +542,7 @@ ANSWER: yes, for emphasis. changed. -->
           network resources. Because WebRTC allows for a Web site to create
           data flows between two browser instances without user consent, it is
           possible for a malicious site to chew up a significant amount of a user's
-          bandwidth without incurring significant costs to himself by setting
+          bandwidth without incurring significant costs to themselves by setting
           up such a channel to another user. However, as a practical matter
           there are a large number of Web sites which can act as data sources,
           so an attacker can at least use downlink bandwidth with existing
@@ -756,24 +674,6 @@ ANSWER: yes, for emphasis. changed. -->
             Note that as soon as the callee sends their ICE candidates, the
             caller learns the callee's IP addresses. The callee's server-reflexive
             address reveals a lot of information about the callee's location.
-
-<!-- [rfced] Section 4.2.4:  Per author feedback for RFC 8839 and per
-other documents in this cluster, we hyphenated the term "server
-reflexive".  Please let us know any objections.
-
-Original:
- The callee's server
- reflexive address reveals a lot of information about the callee's
- location.
-
-Currently:
- The callee's server-
- reflexive address reveals a lot of information about the callee's
- location.
-
-ANSWER: this is fine.
--->
-
             In order to avoid tracking, implementations may wish to suppress
             the start of ICE negotiation until the callee has answered. In
             addition, either side may wish to hide their location from the other
@@ -860,20 +760,8 @@ ANSWER: this is fine.
           </t>
           <t>
             If the calling service has access to the traffic keying material
-            (as in SDES <xref target="RFC4568" format="default"/>), then retrospective attack
+            (as in Security Descriptions (SDES) <xref target="RFC4568" format="default"/>), then retrospective attack
             is trivial.
-
-<!-- [rfced] Section 4.3.1:  We would like to expand "SDES" for ease
-of the reader.  Does SDES refer to "Security Description" here, or perhaps "Source Description" per
-several other documents in this cluster (e.g., RFC-to-be 8852 <draft-ietf-avtext-rid>)?
-
-Original:
- If the calling service has access to the traffic keying material (as
- in SDES [RFC4568]), then retrospective attack is trivial.
-
-ANSWER: Fine.
--->
-
             This form of attack is particularly serious in the Web context because
             it is standard practice in Web services to run extensive logging and monitoring. Thus, it is highly
             likely that if the traffic key is part of any HTTP request it will be logged somewhere and thus
@@ -884,20 +772,8 @@ ANSWER: Fine.
           </t>
           <t>
             In addition, if end-to-end keying is used,
-            the system <bcp14>MUST NOT</bcp14> provide any APIs to either extract either long-term
+            the system <bcp14>MUST NOT</bcp14> provide any APIs to either extract long-term
             keying material or to directly access any stored traffic keys.
-
-<!-- [rfced] Section 4.3.1:  To what does "either" refer in this
-sentence?
-
-Original:
- In addition, if end-to-end keying is in used, the system MUST NOT
- provide any APIs to extract either long-term keying material or to
- directly access any stored traffic keys.
-
-ANSWER: moved either to make this clear.
--->
-
             Otherwise, an attacker who subsequently compromised the calling service
             might be able to use those APIs to recover the traffic keys and thus
             compromise the traffic.
@@ -967,46 +843,21 @@ ANSWER: moved either to make this clear.
             <t>
               ZRTP <xref target="RFC6189" format="default"/> uses a "Short Authentication String" (SAS) which is derived
               from the key agreement protocol.
-
-<!-- [rfced] Section 4.3.2.2:  Is the SAS always derived from the key
-agreement protocol (in which case "(SAS), which is" would be correct)
-or only sometimes derived from the key agreement protocol (in which
-case "(SAS) that is" would be correct)?
-
-Original:
- ZRTP [RFC6189] uses a "short authentication string" (SAS) which is
- derived from the key agreement protocol.
-
-ANSWER: This is correct as is. One could imagine a short authentication string which was not derived from the AKE, one supposes.
- -->
-
  This SAS is designed to be compared
               by the users (e.g., read aloud over the voice channel or
               transmitted via an out-of-band channel) and if confirmed by both sides precludes MITM
               attack. The intention is that the SAS is used once and then key
               continuity (though with a different mechanism from that discussed
               above) is used thereafter.
-
-<!-- [rfced] Section 4.3.2.2:  Should "though a different mechanism"
-be "through a different mechanism" or "although using a different
-mechanism" here?
-
-Original:
- The intention is that the SAS is used
- once and then key continuity (though a different mechanism from that
- discussed above) is used thereafter.
-
-ANSWER: changed to "though with".
--->
-
             </t>
             <t>
               Unfortunately, the SAS does not offer a practical solution to the
-              problem of a compromised calling service. "Voice cloning" systems,
-              which mimic the voice of a given speaker
-              are an active area of research  <xref target="deepfakes-ftc"/>. and are already being used in
-              real-world attacks <xref target="deepfakes-fraud"/>
-              These attacks are likely
+              problem of a compromised calling service.	"Voice conversion" systems, which modify
+              voice from one speaker to make it sound like another,
+              are an active area of research.
+              These systems are already good enough to fool both
+              automatic recognition systems <xref target="farrus-conversion" format="default"/> and
+              humans <xref target="kain-conversion" format="default"/> in many cases, and are of course likely
               to improve in future, especially in an environment where the user just wants
               to get on with the phone call.
               Thus, even if the SAS is effective today, it is likely not to be so for much longer.
@@ -1120,34 +971,6 @@ ANSWER: changed to "though with".
             While technologies (Digital Rights Management (DRM), etc.) do exist to attempt to address
             these issues, they are generally not compatible with open
             systems and WebRTC does not address them.
-
-<!-- [rfced] Section 4.3.3:  We found this sentence confusing.
-Does "from using voice or video processing technology from hiding
-or changing their appearance" mean "from using voice or video
-processing technology to hide or change their appearance," or
-something else?
-
-ANSWER: "for hiding or changing"
-
-Also, for ease of the reader, we expanded "DRM" as "Digital Rights
-Management."  Please let us know if this is incorrect.
-
-ANSWER: Fine.
-
-
-Original:
- Similarly, we do not attempt to
- prevent them from using voice or video processing technology from
- hiding or changing their appearance.  While technologies (DRM, etc.)
- do exist to attempt to address these issues, they are generally not
- compatible with open systems and WebRTC does not address them.
-
-Currently:
- ...  While technologies (Digital
- Rights Management (DRM), etc.) do exist to attempt to address these
- issues, they are generally not compatible with open systems and
- WebRTC does not address them. -->
-
           </t>
           <t>
             Similarly, we make no attempt to prevent prank calling or
@@ -1238,7 +1061,7 @@ Currently:
  <author initials='E.' surname='Rescorla' fullname='Eric Rescorla'>
    <organization/>
  </author>
- <date month='October' year='2020'/>
+ <date month='December' year='2020'/>
  </front>
  <seriesInfo name="RFC" value="8827"/>
  <seriesInfo name="DOI" value="10.17487/RFC8827"/>
@@ -1251,13 +1074,11 @@ Currently:
     <author initials="J" surname="Uberti" fullname="Justin Uberti">
       <organization />
     </author>
-
-    <date month="October" year="2020" />
+    <date month="December" year="2020" />
   </front>
   <seriesInfo name="RFC" value="8828" />
   <seriesInfo name="DOI" value="10.17487/RFC8828"/>
 </reference>
-
 
 <!-- draft-ietf-rtcweb-overview: RFC 8825 -->
 <reference anchor="RFC8825" target="https://www.rfc-editor.org/info/rfc8825">
@@ -1266,7 +1087,7 @@ Currently:
     <author initials="H." surname="Alvestrand" fullname="Harald T. Alvestrand">
       <organization />
     </author>
-    <date month="October" year="2020" />
+    <date month="December" year="2020" />
   </front>
   <seriesInfo name="RFC" value="8825" />
   <seriesInfo name="DOI" value="10.17487/RFC8825"/>
@@ -1282,28 +1103,6 @@ Currently:
           </front>
           <refcontent>RTC-Web Workshop</refcontent>
         </reference>
-
-<!-- [rfced] Informative References:
-The URL provided for [abarth-rtcweb] in the original XML file -
-<http://rtc-web.alvestrand.com/home/papers/
-barth-security-prompt.pdf?attredirects=0> - steers to
-<https://672ad43e-a-6ea19bdf-s-sites.googlegroups.com/
-a/alvestrand.com/rtc-web/home/papers/
-barth-security-prompt.pdf?attachauth= ...(a very long string that is
-different each time)...&attredirects=0>.
-
-Is
-<http://rtc-web.alvestrand.com/home/papers/barth-security-prompt.pdf?attredirects=0>
-considered the most stable URL available?  Or, should the URL not be included
-at all?
-
-ANSWER: the url you propose seems fine
-
-Original:
-        <format
-	    target="http://rtc-web.alvestrand.com/home/papers/barth-security-prompt.pdf?attredirects=0\
-" type="PDF"/>
--->
 
         <reference anchor="whitten-johnny" target="https://www.usenix.org/legacy/publications/library/proceedings/sec99/whitten.html">
           <front>
@@ -1342,25 +1141,38 @@ Original:
         <refcontent>Proceedings of the 18th USENIX Security Symposium</refcontent>
         </reference>
 
-        <reference anchor="deepfakes-ftc" target="https://www.theverge.com/2020/1/29/21080553/ftc-deepfakes-audio-cloning-joe-rogan-phone-scams">
-        <front>
-          <title>FTC says the tech behind audio deepfakes is getting better</title>
-          <author initials="K." surname="Lyons">
+        <reference anchor="kain-conversion" target="https://ieeexplore.ieee.org/document/941039">
+          <front>
+            <title>Design and Evaluation of a Voice Conversion Algorithm based
+	    on Spectral Envelope Mapping and Residual Prediction</title>
+            <author initials="A." surname="Kain">
               <organization/>
             </author>
-            <date month="January" year="2020"/>
-            </front>
-          </reference>
-
-        <reference anchor="deepfakes-fraud" target="https://www.theverge.com/2019/9/5/20851248/deepfakes-ai-fake-audio-phone-calls-thieves-trick-companies-stealing-money">
-        <front>
-          <title>Thieves are now using AI deepfakes to trick companies into sending them money</title>
-          <author initials="N." surname="Statt">
-             <organization/>
+            <author initials="M." surname="Macon">
+              <organization/>
             </author>
-            <date month="September" year="2019"/>
-            </front>
-          </reference>
+            <date month="May" year="2001"/>
+          </front>
+            <seriesInfo name="DOI" value="10.1109/ICASSP.2001.941039"/>
+          <refcontent>Proceedings of the 2001 IEEE International Conference on
+	  Acoustics, Speech, and Signal Processing (ICASSP)</refcontent>
+        </reference>
+
+        <reference anchor="farrus-conversion">
+          <front>
+            <title>Speaker Recognition Robustness to Voice Conversion</title>
+            <author initials="M." surname="Farrus">
+              <organization/>
+            </author>
+            <author initials="D." surname="Erro">
+              <organization/>
+            </author>
+            <author initials="J." surname="Hernando">
+              <organization/>
+            </author>
+            <date month="January" year="2008"/>
+          </front>
+        </reference>
 
         <reference anchor="huang-w2sp">
           <front>
@@ -1399,49 +1211,7 @@ Original:
           <refcontent>Web 2.0 Security and Privacy (W2SP 2008)</refcontent>
         </reference>
 
-<!-- [rfced] Is the [CORS] reference still correct?  Should this document
-instead refer to <https://fetch.spec.whatwg.org/>?  Perhaps
-<https://fetch.spec.whatwg.org/#http-cors-protocol>, more specifically?
-
-Original:
-   [CORS]     van Kesteren, A., "Cross-Origin Resource Sharing", January
-              2014.
-
-When we search for this document, we find this link
-<https://www.w3.org/TR/2009/WD-cors-20090317/>, which gives the following
-warning:
-
-   This version is outdated!
-   For the latest version, please look at https://www.w3.org/TR/cors/.
-
-<https://www.w3.org/TR/cors/> redirects to <https://fetch.spec.whatwg.org/>.
-
-On <https://fetch.spec.whatwg.org/>, the reference for [CORS] refers back to
-<https://www.w3.org/TR/cors/>:
-
-[CORS]
-    Anne van Kesteren. Cross-Origin Resource Sharing. 2 June 2020. REC. URL:
-    https://www.w3.org/TR/cors/
-
-<https://www.w3.org/TR/2020/SPSD-cors-20200602/> says that new implementations
-should follow the "Fetch API Living Standard".
-
-Please review and let us know if any updates are needed.
-
-ANSWER: yes, updated.
--->
-
-        <reference anchor="CORS">
-          <front>
-            <title>Cross-Origin Resource Sharing</title>
-            <author initials="A." surname="van Kesteren">
-              <organization/>
-            </author>
-            <date month="January" year="2014"/>
-          </front>
-        </reference>
-
-        <reference anchor="SWF" target="http://www.adobe.com/content/dam/Adobe/en/devnet/swf/pdf/swf_file_format_spec_v10.pdf">
+        <reference anchor="SWF" target="https://www.adobe.com/content/dam/acom/en/devnet/pdf/swf-file-format-spec.pdf">
           <front>
             <title>SWF File Format Specification Version 19</title>
             <author/>
@@ -1449,44 +1219,16 @@ ANSWER: yes, updated.
           </front>
         </reference>
 
-<!-- [rfced] Informative References:
-The URL provided for [SWF] in the original XML file -
-<http://www.adobe.com/content/dam/Adobe/en/devnet/swf/pdf/
-swf_file_format_spec_v10.pdf> - steers to
-<https://www.adobe.com/content/dam/acom/en/devnet/swf/pdf/
-swf_file_format_spec_v10.pdf>, which in turn yields a 404.
-Please provide a working and stable URL.
-
-Original:
- [SWF]      "SWF File Format Specification Version 19", April 2013. -->
-
-        <reference anchor="Fingerprinting" target="https://www.w3.org/TR/fingerprinting-guidance/#acknowledgement/">
+        <reference anchor="Fingerprinting" target="https://www.w3.org/TR/fingerprinting-guidance/">
           <front>
-            <title>Fingerprinting Guidance for Web Specification Authors (Draft)</title>
-            <author/>
-            <date month="November" year="2013"/>
+            <title>Mitigating Browser Fingerprinting in Web Specifications</title>
+            <author initials="N." surname="Doty" role="editor"/>
+            <date month="March" year="2019"/>
           </front>
         </reference>
 
-<!-- [rfced] Informative References:  The URL provided for
-[Fingerprinting] in the original XML file -
-<https://www.w3.org/TR/fingerprinting-guidance/#acknowledgement/> -
-steers to a document with the title "Mitigating Browser
-Fingerprinting in Web Specifications."  Should the reference be updated?  If
-not, please provide the correct URL for the document listed below - perhaps
-<https://www.w3.org/standards/history/fingerprinting-guidance> or
-<https://www.w3.org/TR/fingerprinting-guidance/>?
-
-Original:
- [Fingerprinting]
-            "Fingerprinting Guidance for Web Specification Authors
-            (Draft)", November 2013.
-ANSWER: I think this: https://www.w3.org/TR/fingerprinting-guidance/
-
- -->
-
         <reference anchor="fetch" target=" https://fetch.spec.whatwg.org/">
-          <front>
+          <front>                                       
             <title>Fetch</title>
             <author initials="A." surname="van Kesteren">
               <organization/>
@@ -1530,28 +1272,4 @@ ANSWER: I think this: https://www.w3.org/TR/fingerprinting-guidance/
 
     </section>
   </back>
-
-<!-- [rfced] Please let us know how/if the following should be made
-consistent:
-
- iframe / IFRAME (also per draft-ietf-rtcweb-security-arch)
-
-ANSWER: IFRAME
-
-
- calling-service.example.com/ vs. calling-service.example.com
-   (We also see "http://anything.example.org/".)
-
-ANSWER: Is there a reason for this to be consistent?
-
-
- CROSS-PROTOCOL attacks (Section 3.3) /
-   cross-protocol attacks (Section 4.2)   Is the capitalization
-   supposed to indicate emphasis?
-
-ANSWER: Yes.
- -->
-
-
-
 </rfc>
