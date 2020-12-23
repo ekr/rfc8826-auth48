@@ -2,13 +2,15 @@
 <!DOCTYPE rfc SYSTEM "rfc2629-xhtml.ent">
 
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude" submissionType="IETF"
-     category="std" consensus="true" docName="draft-ietf-rtcweb-security-12" number="0000" ipr="pre5378Trust200902"
-     obsoletes="" updates="" xml:lang="en" tocInclude="true" tocDepth="4" symRefs="true" sortRefs="true" version="3">
+     category="std" consensus="true" number="8826"
+     docName="draft-ietf-rtcweb-security-12" ipr="pre5378Trust200902"
+     obsoletes="" updates="" xml:lang="en" tocInclude="true" tocDepth="4"
+     symRefs="true" sortRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 2.34.0 -->
   <front>
     <title abbrev="WebRTC Security">Security Considerations for WebRTC</title>
-    <seriesInfo name="RFC" value="0000"/>
-    <author fullname="Eric Rescorla" initials="E.K." surname="Rescorla">
+    <seriesInfo name="RFC" value="8826"/>
+    <author fullname="Eric Rescorla" initials="E." surname="Rescorla">
       <organization>RTFM, Inc.</organization>
       <address>
         <postal>
@@ -22,18 +24,15 @@
         <email>ekr@rtfm.com</email>
       </address>
     </author>
-    <date month="June" year="2020"/>
-
-<!-- [rfced] Please insert any keywords (beyond those that appear in
-the title) for use on https://www.rfc-editor.org/search. -->
-    <keyword>example</keyword>
+    <date month="December" year="2020"/>
 
     <abstract>
+
       <t>
-        WebRTC is a protocol suite for use with real-time applications that can
-        be deployed in browsers - "real time communication on the Web".  This
-        document defines the WebRTC threat model and analyzes the security threats of
-        WebRTC in that model.
+        WebRTC is a protocol suite for use with
+	real-time applications that can be deployed in browsers -- "real-time
+	communication on the Web".  This document defines the WebRTC threat
+	model and analyzes the security threats of WebRTC in that model.
       </t>
     </abstract>
   </front>
@@ -41,41 +40,42 @@ the title) for use on https://www.rfc-editor.org/search. -->
     <section anchor="sec.introduction" numbered="true" toc="default">
       <name>Introduction</name>
       <t>
-        The Real-Time Communications on the Web (RTCWEB) working group has standardized
+        The Real-Time Communications on the Web (RTCWEB) Working Group has standardized
         protocols for real-time communications between Web browsers, generally
-        called "WebRTC" <xref target="RFCYYY1" format="default"/>. The
+        called "WebRTC" <xref target="RFC8825" format="default"/>. The
         major use cases for WebRTC technology are real-time audio and/or video calls,
-        Web conferencing, and direct data transfer. Unlike most conventional real-time systems,
-        (e.g., SIP-based <xref target="RFC3261" format="default"/> soft phones) WebRTC communications are directly controlled
-        by some Web server. A simple case is shown below.
+        Web conferencing, and direct data transfer. Unlike most conventional real-time systems
+        (e.g., SIP-based <xref target="RFC3261" format="default"/> soft
+	phones), WebRTC communications are directly controlled by some Web
+	server. A simple case is shown below.
       </t>
       <figure anchor="fig.simple">
-        <name>A simple WebRTC system</name>
+        <name>A Simple WebRTC System</name>
         <artwork name="" type="" align="left" alt=""><![CDATA[
-                            +----------------+
-                            |                |
-                            |   Web Server   |
-                            |                |
-                            +----------------+
-                                ^        ^
-                               /          \
-                       HTTP   /            \   HTTP
-                        or   /              \   or
-                 WebSockets /                \ WebSockets
-                           v                  v
-                        JS API              JS API
-                  +-----------+            +-----------+
-                  |           |    Media   |           |
-                  |  Browser  |<---------->|  Browser  |
-                  |           |            |           |
-                  +-----------+            +-----------+
-                      Alice                     Bob ]]></artwork>
+                          +----------------+
+                          |                |
+                          |   Web Server   |
+                          |                |
+                          +----------------+
+                              ^        ^
+                             /          \
+                     HTTP   /            \   HTTP
+                      or   /              \   or
+               WebSockets /                \ WebSockets
+                         v                  v
+                      JS API              JS API
+                +-----------+            +-----------+
+                |           |    Media   |           |
+                |  Browser  |<---------->|  Browser  |
+                |           |            |           |
+                +-----------+            +-----------+
+                    Alice                     Bob ]]></artwork>
       </figure>
       <t>
         In the system shown in <xref target="fig.simple" format="default"/>, Alice and Bob both have
         WebRTC-enabled browsers and they visit some Web server which operates a
         calling service. Each of their browsers exposes standardized JavaScript
-        calling APIs (implemented as browser built-ins)
+        (JS) calling APIs (implemented as browser built-ins)
         which are used by the Web server to set up a call between Alice and Bob.
         The Web server also serves as the signaling channel to transport
         control messages between the browsers.
@@ -89,7 +89,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
       </t>
       <t>
         It should be immediately apparent that this type of system poses new
-        security challenges beyond those of a conventional VoIP system. In particular,
+        security challenges beyond those of a conventional Voice over IP (VoIP) system. In particular,
         it needs to contend with malicious calling services.
         For example, if the calling service
         can cause the browser to make a call at any time to any callee of its
@@ -97,11 +97,11 @@ the title) for use on https://www.rfc-editor.org/search. -->
         their knowledge, simply by placing a call to some recording service.
         More subtly, if the exposed APIs allow the server to instruct the
         browser to send arbitrary content, then they can be used to bypass
-        firewalls or mount denial of service attacks. Any successful system
+        firewalls or mount denial-of-service (DoS) attacks. Any successful system
         will need to be resistant to this and other attacks.
       </t>
       <t>
-        A companion document <xref target="RFCYYY2" format="default"/> describes a security
+        A companion document <xref target="RFC8827" format="default"/> describes a security
         architecture intended to address the issues raised in this document.
       </t>
     </section>
@@ -122,9 +122,10 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <t>
         The security requirements for WebRTC follow directly from the
         requirement that the browser's job is to protect the user.
-        Huang et al. <xref target="huang-w2sp" format="default"/> summarize the core browser security guarantee as:
+        Huang et al. <xref target="huang-w2sp" format="default"/> summarize
+	the core browser security guarantee as follows:
       </t>
-
+<!-- DNE -->
       <ul empty="true">
       <li>Users can safely visit arbitrary web sites and execute scripts provided by those sites.</li></ul>
 
@@ -143,16 +144,17 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <t>
         In this model, then, the browser acts as a Trusted Computing Base (TCB) both
         from the user's perspective and to some extent from the server's. While HTML
-        and JavaScript (JS) provided by the server can cause the browser to execute a variety of
+        and JavaScript provided by the server can cause the browser to execute a variety of
         actions, those scripts operate in a sandbox that isolates them both from
         the user's computer and from each other, as detailed below.
       </t>
       <t>
-        Conventionally, we refer to either web attackers, who are able to induce
-        you to visit their sites but do not control the network, and network
-        attackers, who are able to control your network. Network attackers correspond
+        Conventionally, we refer to either Web attackers, who are able to induce
+        you to visit their sites but do not control the network, or network
+        attackers, who are able to control your network.
+        Network attackers correspond
         to the <xref target="RFC3552" format="default"/> "Internet Threat Model". Note that in some
-        cases, a network attacker is also a web attacker, since transport protocols
+        cases, a network attacker is also a Web attacker, since transport protocols
         that do not provide integrity protection allow the network to inject traffic
         as if they were any communications peer. TLS, and HTTPS in particular, prevent
         against these attacks, but when analyzing HTTP connections, we must assume
@@ -162,15 +164,15 @@ the title) for use on https://www.rfc-editor.org/search. -->
         <name>Access to Local Resources</name>
         <t>
           While the browser has access to local resources such as keying material,
-          files, the camera, and the microphone, it strictly limits or forbids web
+          files, the camera, and the microphone, it strictly limits or forbids Web
           servers from accessing those same resources. For instance, while it is possible
           to produce an HTML form which will allow file upload, a script cannot do
           so without user consent and in fact cannot even suggest a specific file
           (e.g., /etc/passwd); the user must explicitly select the file and consent
-          to its upload. [Note: in many cases browsers are explicitly designed to
+          to its upload. (Note: In many cases, browsers are explicitly designed to
           avoid dialogs with the semantics of "click here to bypass security checks", as
           extensive research <xref target="cranor-wolf" format="default"/> shows that users are prone to
-          consent under such circumstances.]
+          consent under such circumstances.)
         </t>
         <t>
           Similarly, while Flash programs (SWFs) <xref target="SWF" format="default"/> can access the camera and microphone, they
@@ -184,36 +186,38 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <section anchor="sec.same-origin" numbered="true" toc="default">
         <name>Same-Origin Policy</name>
         <t>
-          Many other resources are accessible but isolated. For instance,
-          while scripts are allowed to make HTTP requests via the XMLHttpRequest() API (see <xref target="XmlHttpRequest" format="default"/>)
-          those requests are not allowed to be made to any server, but rather solely
-          to the same ORIGIN from whence the script came <xref target="RFC6454" format="default"/>
-          (although CORS <xref target="CORS" format="default"/> and WebSockets
+          Many other resources are accessible but isolated.
+          For instance,
+          while scripts are allowed to make HTTP requests via the fetch() API (see <xref target="fetch" format="default"/>)
+          when requests are made to a server other than from
+          the same <strong>origin</strong> from whence the script came <xref target="RFC6454" format="default"/>
+          they are not able to read the responses. Cross-Origin Resource Sharing (CORS) <xref target="fetch" format="default"/> and WebSockets
           <xref target="RFC6455" format="default"/> provide an escape hatch from this restriction,
-          as described below.)
-          This SAME ORIGIN POLICY (SOP) prevents server A from mounting attacks
+          as described below.
+          This same-origin policy (SOP) prevents server A from mounting attacks
           on server B via the user's browser, which protects both the user
-          (e.g., from misuse of his credentials) and the server B (e.g., from
-          DoS attack).
+          (e.g., from misuse of their credentials) and server B (e.g., from
+          DoS attacks).
         </t>
         <t>
           More generally, SOP forces scripts from each site to run in their own, isolated,
           sandboxes. While there are techniques to allow them to interact, those interactions
           generally must be mutually consensual (by each site) and are limited to certain
           channels. For instance, multiple pages/browser panes from the same origin
-          can read each other's JS variables, but pages from the different origins--or
-          even iframes from different origins on the same page--cannot.
+          can read each other's JS variables, but pages from different
+	  origins -- or
+          even IFRAMEs from different origins on the same page -- cannot.
         </t>
-        <!-- TODO: Picture -->
+
       </section>
       <section anchor="sec.cors-etc" numbered="true" toc="default">
-        <name>Bypassing SOP: CORS, WebSockets, and consent to communicate</name>
+        <name>Bypassing SOP: CORS, WebSockets, and Consent to Communicate</name>
         <t>
           While SOP serves an important security function, it also makes it inconvenient to
           write certain classes of applications. In particular, mash-ups, in which a script
           from origin A uses resources from origin B, can only be achieved via a certain amount of hackery.
-          The W3C Cross-Origin Resource Sharing (CORS) spec <xref target="CORS" format="default"/> is a response to this
-          demand. In CORS, when a script from origin A executes what would otherwise be a forbidden
+          The W3C CORS spec <xref target="fetch" format="default"/> is a response to this
+          demand. In CORS, when a script from origin A executes a potentially unsafe
           cross-origin request, the browser instead contacts the target server to determine
           whether it is willing to allow cross-origin requests from A. If it is so willing,
           the browser then allows the request. This consent verification process is designed
@@ -228,8 +232,8 @@ the title) for use on https://www.rfc-editor.org/search. -->
           stage to avoid allowing scripts to simply send arbitrary data to another origin.
         </t>
         <t>
-          While consent verification is conceptually simple--just do a handshake before you
-          start exchanging the real data--experience has shown that designing a
+          While consent verification is conceptually simple -- just do a handshake before you
+          start exchanging the real data -- experience has shown that designing a
           correct consent verification system is difficult. In particular, Huang et al. <xref target="huang-w2sp" format="default"/>
           have shown vulnerabilities in the existing Java and Flash consent verification
           techniques and in a simplified version of the WebSockets handshake. In particular,
@@ -257,23 +261,23 @@ the title) for use on https://www.rfc-editor.org/search. -->
         <t>
           In order for the user to
           make an intelligent decision about whether to allow a call
-          (and hence his camera and microphone input to be routed somewhere),
-          he must understand either who is requesting access, where the media
+          (and hence their camera and microphone input to be routed somewhere),
+          they must understand either who is requesting access, where the media
           is going, or both. As detailed below, there are two basic conceptual
           models:
         </t>
         <ol spacing="normal" type="1">
           <li>You are sending your media to entity A because you want to
-            talk to Entity A (e.g., your mother).</li>
+            talk to entity A (e.g., your mother).</li>
           <li>Entity A (e.g., a calling service) asks to access the user's devices with the assurance
-            that it will transfer the media to entity B (e.g., your mother)</li>
+            that it will transfer the media to entity B (e.g., your mother).</li>
         </ol>
         <t>
           In either case, identity is at the heart of any consent decision.
           Moreover, the identity of the party the browser is connecting to is all that the browser can meaningfully enforce;
           if you are calling A, A can simply forward the media to C. Similarly,
           if you authorize A to place a call to B, A can call C instead.
-          In either cases, all the browser is able to do is verify and check
+          In either case, all the browser is able to do is verify and check
           authorization for whoever is controlling where the media goes.
           The target of the media can of course advertise a security/privacy
           policy, but this is not something that the browser can
@@ -291,7 +295,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           user's browser from being used to attack its local network.
           Thus, we need to ensure communications consent even if the
           site is not able to access the camera and microphone at
-          all (hence WebSockets's consent mechanism) and similarly
+          all (hence WebSockets's consent mechanism) and similarly,
           we need to be concerned with the site accessing the
           user's camera and microphone even if the data is to be
           sent back to the site via conventional HTTP-based network
@@ -322,14 +326,14 @@ the title) for use on https://www.rfc-editor.org/search. -->
             Web security model. A key part of the Same-Origin Policy is that
             HTML or JS from site A can reference content from site B and cause
             the browser to load it, but (unless explicitly permitted) cannot
-            see the result. However, if a web application from a site is
+            see the result. However, if a Web application from a site is
             screen sharing the browser, then this violates that invariant,
             with serious security consequences. For example, an attacker site
             might request screen sharing and then briefly open up a new
-            Window to the user's bank or webmail account, using screen sharing
+            window to the user's bank or webmail account, using screen sharing
             to read the resulting displayed content. A more sophisticated
-            attack would be open up a source view window to a site and use the
-            screen sharing result to view anti cross-site request forgery tokens.
+            attack would be to open up a source view window to a site and use the
+            screen sharing result to view anti-cross-site request forgery tokens.
           </t>
           <t>
             These threats suggest that screen/application sharing might need
@@ -350,12 +354,12 @@ the title) for use on https://www.rfc-editor.org/search. -->
               The first scenario we consider is a dedicated calling service. In this
               case, the user has a relationship with a calling site
               and repeatedly makes calls on it. It is likely
-              that rather than having to give permission for each call
-              that the user will want to give the calling service long-term
+              that rather than having to give permission for each call,
+              the user will want to give the calling service long-term
               access to the camera and microphone. This is a natural fit
               for a long-term consent mechanism (e.g., installing an
               app store "application" to indicate permission for the
-              calling service.)
+              calling service).
               A variant of the dedicated calling service is a gaming site
               (e.g., a poker site) which hosts a dedicated calling service
               to allow players to call each other.
@@ -371,7 +375,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
               but only to certain target entities (identified via
               media-plane cryptographic mechanisms as described in
               <xref target="sec.during-attack" format="default"/> and especially
-              <xref target="sec.third-party-id" format="default"/>.) Note that the
+              <xref target="sec.third-party-id" format="default"/>). Note that the
               question of consent here is related to but
               distinct from the question of peer identity: I
               might be willing to allow a calling site to in general
@@ -415,18 +419,18 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <t>
           As discussed in <xref target="sec.same-origin" format="default"/>, the basic unit of
           Web sandboxing is the origin, and so it is natural to scope consent
-          to origin. Specifically, a script from origin A <bcp14>MUST</bcp14> only be allowed
-          to initiate communications (and hence to access camera and microphone)
+          to the origin. Specifically, a script from origin A <bcp14>MUST</bcp14> only be allowed
+          to initiate communications (and hence to access the camera and microphone)
           if the user has specifically authorized access for that origin.
           It is of course technically possible to have coarser-scoped permissions,
-          but because the Web model is scoped to origin, this creates a difficult
+          but because the Web model is scoped to the origin, this creates a difficult
           mismatch.
           </t>
           <t>
-          Arguably, origin is not fine-grained enough. Consider the situation where
+          Arguably, the origin is not fine-grained enough. Consider the situation where
           Alice visits a site and authorizes it to make a single call. If consent is
-          expressed solely in terms of origin, then at any future visit to that
-          site (including one induced via mash-up or ad network), the site can
+          expressed solely in terms of the origin, then on any future visit to that
+          site (including one induced via a mash-up or ad network), the site can
           bug Alice's computer, use the computer to place bogus calls, etc.
           While in principle Alice could grant and then
           revoke the privilege, in practice privileges accumulate; if we are concerned
@@ -448,7 +452,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           in the UI flow for every call. Not only does this quickly become annoying
           but it can train the user to simply click "OK", at which point the consent becomes
           useless. Thus, while it may be necessary to have individual consent in some
-          case, this is not a suitable solution for (for instance) the calling
+          cases, this is not a suitable solution for (for instance) the calling
           service case. Where necessary, in-flow user interfaces must be carefully
           designed to avoid the risk of the user blindly clicking through.
           </t>
@@ -456,17 +460,16 @@ the title) for use on https://www.rfc-editor.org/search. -->
           The other two options are designed to restrict calls to a given target.
           Callee-oriented consent provided by the calling site
           would not work well because a malicious site can claim that the
-          user is calling any user of his choice. One fix for this is to tie calls to a
-          cryptographically-established identity. While not suitable for all cases,
+          user is calling any user of their choice. One fix for this is to tie calls to a
+          cryptographically established identity. While not suitable for all cases,
           this approach may be useful for some. If we consider the case
           of advertising, it's not particularly convenient
-          to require the advertiser to instantiate an iframe on the hosting site just
+          to require the advertiser to instantiate an IFRAME on the hosting site just
           to get permission; a more convenient approach is to cryptographically tie
           the advertiser's certificate to the communication directly. We're still
-          tying permissions to origin here, but to the media origin (and-or destination)
-          rather than to the Web origin. <xref target="RFCYYY2" format="default"/>
-          describes mechanisms
-          which facilitate this sort of consent.
+          tying permissions to the origin here, but to the media origin (and/or destination)
+          rather than to the Web origin. <xref target="RFC8827" format="default"/>
+          describes mechanisms which facilitate this sort of consent.
           </t>
           <t>
           Another case where media-level cryptographic identity makes sense is when a user
@@ -482,27 +485,28 @@ the title) for use on https://www.rfc-editor.org/search. -->
         <section numbered="true" toc="default">
           <name>Security Properties of the Calling Page</name>
           <t>
-          Origin-based security is intended to secure against web attackers. However, we must
+          Origin-based security is intended to secure against Web attackers. However, we must
           also consider the case of network attackers. Consider the case where I have
           granted permission to a calling service by an origin that has the HTTP scheme,
-          e.g., http://calling-service.example.com. If I ever use my computer on
+          e.g., &lt;http://calling-service.example.com&gt;. If I ever use my computer on
           an unsecured network (e.g., a hotspot or if my own home wireless network
           is insecure), and browse any HTTP site, then an attacker can bug my computer. The attack proceeds
           like this:
           </t>
           <ol spacing="normal" type="1">
-            <li>I connect to http://anything.example.org/. Note that this site is unaffiliated
+            <li>I connect to &lt;http://anything.example.org/&gt;. Note that this site is unaffiliated
             with the calling service.</li>
             <li>The attacker modifies my HTTP connection to inject an IFRAME (or a redirect)
-            to http://calling-service.example.com</li>
-            <li>The attacker forges the response from  http://calling-service.example.com/ to
-            inject JS to initiate a call to himself.</li>
+            to &lt;http://calling-service.example.com&gt;.</li>
+            <li>The attacker forges the response from &lt;http://calling-service.example.com/&gt; to
+            inject JS to initiate a call to themselves.</li>
           </ol>
+
           <t>
           Note that this attack does not depend on the media being insecure. Because the
-          call is to the attacker, it is also encrypted to him. Moreover, it need not
+          call is to the attacker, it is also encrypted to them. Moreover, it need not
           be executed immediately; the attacker can "infect" the origin semi-permanently
-          (e.g., with a web worker or a popped-up window that is hidden under the main window.)
+          (e.g., with a Web worker or a popped-up window that is hidden under the main window)
           and thus be able to bug me long
           after I have left the infected network. This risk is created by allowing
           calls at all from a page fetched over HTTP.
@@ -512,8 +516,9 @@ the title) for use on https://www.rfc-editor.org/search. -->
           if those sites include active content (e.g., JavaScript) from an untrusted
           site, that JavaScript is executed in the security context of the page
           <xref target="finer-grained" format="default"/>. This could lead to compromise of a call
-          even if the parent page is safe. Note: this issue is not restricted
-          to PAGES which contain untrusted content. If any page from a
+          even if the parent page is safe. Note: This issue is not restricted
+          to <strong>pages</strong> which contain untrusted content.
+ If any page from a
           given origin ever loads JavaScript from an attacker, then it is
           possible for that attacker to infect the browser's notion of that
           origin semi-permanently.
@@ -523,11 +528,12 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <section anchor="sec.rtc-comm-consent" numbered="true" toc="default">
         <name>Communications Consent Verification</name>
         <t>
-          As discussed in <xref target="sec.cors-etc" format="default"/>, allowing web applications unrestricted network access
+          As discussed in <xref target="sec.cors-etc" format="default"/>, allowing Web applications unrestricted network access
           via the browser introduces the risk of using the browser as an attack platform against
-          machines which would not otherwise be accessible to the malicious site, for
-          instance because they are topologically restricted (e.g., behind a firewall or NAT).
-          In order to prevent this form of attack as well as cross-protocol attacks it is
+          machines which would not otherwise be accessible to the malicious
+	  site, for
+          instance, because they are topologically restricted (e.g., behind a firewall or NAT).
+          In order to prevent this form of attack as well as cross-protocol attacks, it is
           important to require that the target of traffic explicitly consent to receiving
           the traffic in question. Until that consent has been verified for a given endpoint,
           traffic other than the consent handshake <bcp14>MUST NOT</bcp14> be sent to that endpoint.
@@ -537,7 +543,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           network resources. Because WebRTC allows for a Web site to create
           data flows between two browser instances without user consent, it is
           possible for a malicious site to chew up a significant amount of a user's
-          bandwidth without incurring significant costs to himself by setting
+          bandwidth without incurring significant costs to themselves by setting
           up such a channel to another user. However, as a practical matter
           there are a large number of Web sites which can act as data sources,
           so an attacker can at least use downlink bandwidth with existing
@@ -553,15 +559,16 @@ the title) for use on https://www.rfc-editor.org/search. -->
           designed to verify that the receiving element wishes to receive traffic from the
           sender. It
           is important to remember here that the site initiating ICE is
-          presumed malicious; in order for the handshake to be secure the
+          presumed malicious; in order for the handshake to be secure, the
           receiving element <bcp14>MUST</bcp14> demonstrate receipt/knowledge of some value
           not available to the site (thus preventing the site from forging
-          responses).  In order to achieve this objective with ICE, the STUN
+          responses).  In order to achieve this objective with ICE, the
+	  Session Traversal Utilities for NAT (STUN)
           transaction IDs must be generated by the browser and <bcp14>MUST NOT</bcp14> be made
           available to the initiating script, even via a diagnostic interface.
           Verifying receiver consent also requires verifying the receiver wants
           to receive traffic from a particular sender, and at this time; for
-          example a malicious site may simply attempt ICE to known servers
+          example, a malicious site may simply attempt ICE to known servers
           that are using ICE for other sessions.  ICE provides this verification
           as well, by using the STUN credentials as a form of per-session shared
           secret.  Those credentials are known to the Web application, but would
@@ -580,25 +587,26 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <t>
             Once consent is verified, there still is some concern about misinterpretation
             attacks as described by Huang et al. <xref target="huang-w2sp" format="default"/>.
-            Where TCP is used the risk is substantial due to the potential
-            presence of transparent proxies and therefore if TCP is to be used,
-            then WebSockets style masking <bcp14>MUST</bcp14> be employed.
+            Where TCP is used, the risk is substantial due to the potential
+            presence of transparent proxies; therefore, if TCP is to be used,
+            then WebSockets-style masking <bcp14>MUST</bcp14> be employed.
           </t>
           <t>
             Since DTLS (with the anti-chosen plaintext mechanisms required by
             TLS 1.1) does not allow the attacker to generate predictable
             ciphertext, there is no need for masking of protocols running over
-            DTLS (e.g. SCTP over DTLS, UDP over DTLS, etc.).
+            DTLS (e.g., SCTP over DTLS, UDP over DTLS, etc.).
           </t>
           <t>
             Note that in principle an attacker could exert some control
-            over SRTP packets by using a combination of the WebAudio API
+            over Secure Real-time Transport Protocol (SRTP) packets by using a combination of the WebAudio API
             and extremely tight timing control.
-            The primary risk here seems to be carriage of SRTP over TURN TCP.
+            The primary risk here seems to be carriage of SRTP over Traversal
+	    Using Relays around NAT (TURN) TCP.
             However, as SRTP packets have an extremely characteristic packet
             header it seems unlikely that any but the most aggressive
             intermediaries would be confused into thinking that another
-            application layer protocol was in use.
+            application-layer protocol was in use.
           </t>
         </section>
         <section numbered="true" toc="default">
@@ -617,8 +625,8 @@ the title) for use on https://www.rfc-editor.org/search. -->
             legacy endpoint has a public address) include:
           </t>
           <ul spacing="normal">
-            <li>STUN checks without using ICE (i.e., the non-RTC-web endpoint sets up a STUN responder.)</li>
-            <li>Use of RTCP as an implicit reachability check.</li>
+            <li>STUN checks without using ICE (i.e., the non-RTC-web endpoint sets up a STUN responder).</li>
+            <li>Use of the RTP Control Protocol (RTCP) as an implicit reachability check.</li>
           </ul>
           <t>
             In the RTCP approach, the WebRTC endpoint is allowed to send
@@ -641,7 +649,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           </t>
           <t>
             If the systems are tightly integrated (i.e., the STUN endpoint responds with
-            responses authenticated with ICE credentials) then this issue
+            responses authenticated with ICE credentials), then this issue
             does not exist. However, such a design is very close to an ICE-Lite
             implementation (indeed, arguably is one).
             An intermediate approach would be to have a STUN extension that indicated
@@ -665,7 +673,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <name>IP Location Privacy</name>
           <t>
             Note that as soon as the callee sends their ICE candidates, the
-            caller learns the callee's IP addresses. The callee's server reflexive
+            caller learns the callee's IP addresses. The callee's server-reflexive
             address reveals a lot of information about the callee's location.
             In order to avoid tracking, implementations may wish to suppress
             the start of ICE negotiation until the callee has answered. In
@@ -675,14 +683,14 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <t>
             In ordinary operation, the site learns the browser's IP address,
             though it may be hidden via mechanisms like Tor <eref
-	    brackets="angle" target="http://www.torproject.org"/> or a VPN.
+	    brackets="angle" target="https://www.torproject.org"/> or a VPN.
             However, because sites can cause the browser to provide
             IP addresses, this provides a mechanism for sites to learn
             about the user's network environment even if the user is behind
             a VPN that masks their IP address. Implementations may wish
             to provide settings which suppress all non-VPN candidates if
             the user is on certain kinds of VPN, especially privacy-oriented
-            systems such as Tor.   See <xref target="RFCYYY3" format="default"/>
+            systems such as Tor.   See <xref target="RFC8828" format="default"/>
             for additional information.
           </t>
         </section>
@@ -697,7 +705,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
           This service must be provided for both data and voice/video.
           Ideally the same security mechanisms would be used for both types of content.
           Technology for providing this
-          service (for instance, SRTP <xref target="RFC3711" format="default"/>, DTLS <xref target="RFC6347" format="default"/> and
+          service (for instance, SRTP <xref target="RFC3711" format="default"/>, DTLS <xref target="RFC6347" format="default"/>, and
           DTLS-SRTP <xref target="RFC5763" format="default"/>) is well understood. However, we must
           examine this technology in the WebRTC context, where the threat
           model is somewhat different.
@@ -710,10 +718,10 @@ the title) for use on https://www.rfc-editor.org/search. -->
           While in principle it is possible for the browser to cut the calling service
           out of the loop and directly present trusted information (and perhaps get
           consent), practice in modern browsers is to avoid this whenever possible.
-          "In-flow" modal dialogs which require the user to consent to specific
+          "In&nbhy;flow" modal dialogs which require the user to consent to specific
           actions are particularly disfavored as human factors research indicates
           that unless they are made extremely invasive, users simply agree to
-          them without actually consciously giving consent. <xref target="abarth-rtcweb" format="default"/>.
+          them without actually consciously giving consent <xref target="abarth-rtcweb" format="default"/>.
           Thus, nearly all the UI will necessarily be rendered by the
           browser but under control of the calling service. This likely includes the
           peer's identity information, which, after all, is only meaningful in
@@ -725,11 +733,11 @@ the title) for use on https://www.rfc-editor.org/search. -->
           classes of attack:
         </t>
         <dl newline="true" spacing="normal">
-          <dt>Retrospective compromise of calling service.</dt>
+          <dt>Retrospective compromise of calling service:</dt>
           <dd>The calling service
           is non-malicious during a call but subsequently is compromised and wishes to
-          attack an older call (often called a "passive attack")</dd>
-          <dt>During-call attack by calling service.</dt>
+          attack an older call (often called a "passive attack").</dd>
+          <dt>During-call attack by calling service:</dt>
           <dd>The calling service is compromised
           during the call it wishes to attack (often called an "active attack").</dd>
         </dl>
@@ -747,25 +755,25 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <name>Protecting Against Retrospective Compromise</name>
           <t>
             In a retrospective attack, the calling service was uncompromised during
-            the call, but that an attacker subsequently wants to recover the content of the
+            the call, but an attacker subsequently wants to recover the content of the
             call. We assume that the attacker has access to the protected media stream
-            as well as having full control of the calling service.
+            as well as full control of the calling service.
           </t>
           <t>
             If the calling service has access to the traffic keying material
-            (as in SDES <xref target="RFC4568" format="default"/>), then retrospective attack
+            (as in Security Descriptions (SDES) <xref target="RFC4568" format="default"/>), then retrospective attack
             is trivial.
             This form of attack is particularly serious in the Web context because
             it is standard practice in Web services to run extensive logging and monitoring. Thus, it is highly
             likely that if the traffic key is part of any HTTP request it will be logged somewhere and thus
             subject to subsequent compromise. It is this consideration that makes an automatic, public key-based
             key exchange mechanism imperative for WebRTC (this is a good idea for any communications
-            security system) and this mechanism <bcp14>SHOULD</bcp14> provide perfect forward secrecy (PFS).
+            security system), and this mechanism <bcp14>SHOULD</bcp14> provide Forward Secrecy (FS).
             The signaling channel/calling service can be used to authenticate this mechanism.
           </t>
           <t>
-            In addition, if end-to-end keying is in used,
-            the system <bcp14>MUST NOT</bcp14> provide any APIs to extract either long-term
+            In addition, if end-to-end keying is used,
+            the system <bcp14>MUST NOT</bcp14> provide any APIs to either extract long-term
             keying material or to directly access any stored traffic keys.
             Otherwise, an attacker who subsequently compromised the calling service
             might be able to use those APIs to recover the traffic keys and thus
@@ -784,7 +792,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
             this form of attack requires positive authentication of the remote
             endpoint such as explicit out-of-band key verification (e.g., by a fingerprint)
             or a third-party identity service as described in
-            <xref target="RFCYYY2" format="default"/>.
+            <xref target="RFC8827" format="default"/>.
           </t>
           <section anchor="sec.key-continuity" numbered="true" toc="default">
             <name>Key Continuity</name>
@@ -794,18 +802,18 @@ the title) for use on https://www.rfc-editor.org/search. -->
               it cannot produce a private key that maps to a given public key.
               Thus, it is possible for the browser to note a given user's
               public key and generate an alarm whenever that user's key
-              changes. SSH <xref target="RFC4251" format="default"/> uses a similar technique.
+              changes. The Secure Shell (SSH) protocol <xref target="RFC4251" format="default"/> uses a similar technique.
               (Note that the need to avoid explicit user consent on every call
-              precludes the browser requiring an immediate manual check of the peer's key).
+              precludes the browser requiring an immediate manual check of the peer's key.)
             </t>
             <t>
               Unfortunately, this sort of key continuity mechanism is far less
               useful in the WebRTC context. First, much of the virtue of
-              WebRTC (and any Web application) is that it is not bound to
+              WebRTC (and any Web application) is that it is not bound to a
               particular piece of client software. Thus, it will be not only
               possible but routine for a user to use multiple browsers
-              on different computers which will of course have different
-              keying material (SACRED <xref target="RFC3760" format="default"/> notwithstanding.)
+              on different computers that will of course have different
+              keying material (Securely Available Credentials (SACRED) <xref target="RFC3760" format="default"/> notwithstanding).
               Thus, users will frequently be alerted to key mismatches which
               are in fact completely legitimate, with the result that they
               are trained to simply click through them. As it is known that
@@ -820,7 +828,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
               gets the peer's identity from the user. Rather, it is provided
               by the calling service. Even enabling a mechanism of this type
               would require an API to allow the calling service to tell the
-              browser "this is a call to user X". All the calling service
+              browser "this is a call to user X." All the calling service
               needs to do to avoid triggering a key continuity warning
               is to tell the browser that "this is a call to user Y"
               where Y is confusable with X.
@@ -834,32 +842,32 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <section anchor="sec.sas" numbered="true" toc="default">
             <name>Short Authentication Strings</name>
             <t>
-              ZRTP <xref target="RFC6189" format="default"/> uses a "short authentication string" (SAS) which is derived
-              from the key agreement protocol. This SAS is designed to be compared
+              ZRTP <xref target="RFC6189" format="default"/> uses a "Short Authentication String" (SAS) which is derived
+              from the key agreement protocol.
+ This SAS is designed to be compared
               by the users (e.g., read aloud over the voice channel or
-              transmitted via an out of band channel) and if confirmed by both sides precludes MITM
+              transmitted via an out-of-band channel) and if confirmed by both sides precludes MITM
               attack. The intention is that the SAS is used once and then key
-              continuity (though a different mechanism from that discussed
+              continuity (though with a different mechanism from that discussed
               above) is used thereafter.
             </t>
             <t>
               Unfortunately, the SAS does not offer a practical solution to the
-              problem of a compromised calling service.	"Voice conversion" systems, which modify
-              voice from one speaker to make it sound like another,
-              are an active area of research.
-              These systems are already good enough to fool both
-              automatic recognition systems <xref target="farus-conversion" format="default"/> and
-              humans <xref target="kain-conversion" format="default"/> in many cases, and are of course likely
+              problem of a compromised calling service. "Voice cloning" systems,
+              which mimic the voice of a given speaker
+              are an active area of research  <xref target="deepfakes-ftc"/>. and are already being used in
+              real-world attacks <xref target="deepfakes-fraud"/>
+              These attacks are likely
               to improve in future, especially in an environment where the user just wants
               to get on with the phone call.
-              Thus, even if SAS is effective today, it is likely not to be so for much longer.
+              Thus, even if the SAS is effective today, it is likely not to be so for much longer.
             </t>
             <t>
               Additionally, it is unclear that users will actually use an SAS.
               As discussed above, the browser UI constraints preclude requiring
               the SAS exchange prior to completing the call and so it must be
               voluntary; at most the browser will provide some UI indicator that the
-              SAS has not yet been checked. However, it is well-known that when
+              SAS has not yet been checked. However, it is well known that when
               faced with optional security mechanisms, many users simply
               ignore them <xref target="whitten-johnny" format="default"/>.
             </t>
@@ -873,22 +881,22 @@ the title) for use on https://www.rfc-editor.org/search. -->
               set of keying material (recall that the attacker can just present
               a slightly different name so that the attack shows the
               same UI as a call to a new device or to someone you haven't
-              called before) but as a practical matter, users simply ignore
+              called before), but as a practical matter, users simply ignore
               such indicators even in the rather more dire case of mixed
               content warnings.
             </t>
           </section>
           <section anchor="sec.third-party-id" numbered="true" toc="default">
-            <name>Third Party Identity</name>
+            <name>Third-Party Identity</name>
             <t>
               The conventional approach to providing communications identity
-              has of course been to have some third party identity system
+              has of course been to have some third-party identity system
               (e.g., PKI) to authenticate the endpoints. Such mechanisms
               have proven to be too cumbersome for use by typical users
               (and nearly too cumbersome for administrators).
               However,
               a new generation of Web-based identity providers (BrowserID, Federated Google Login,
-              Facebook Connect, OAuth <xref target="RFC6749" format="default"/>, OpenID <xref target="OpenID" format="default"/>, WebFinger <xref target="RFC7033" format="default"/>), has recently been developed
+              Facebook Connect, OAuth <xref target="RFC6749" format="default"/>, OpenID <xref target="OpenID" format="default"/>, WebFinger <xref target="RFC7033" format="default"/>) has been developed
               and use Web technologies to provide lightweight (from the user's
               perspective) third-party authenticated transactions.
               It is possible to use systems of this type to authenticate WebRTC calls,
@@ -903,13 +911,13 @@ the title) for use on https://www.rfc-editor.org/search. -->
             </t>
             <t>
               Note that there is one special case in which PKI-style certificates
-              do provide a practical solution: calls from end-users to
+              do provide a practical solution: calls from end users to
               large sites. For instance, if you are making a call
               to Amazon.com, then Amazon can easily get a certificate
               to authenticate their media traffic, just as they get
               one to authenticate their Web traffic. This does not provide
               additional security value in cases in which the calling site
-              and the media peer are one in the same, but might be useful
+              and the media peer are one and the same, but might be useful
               in cases in which third parties (e.g., ad networks or
               retailers) arrange for calls but do not participate in them.
             </t>
@@ -933,7 +941,7 @@ the title) for use on https://www.rfc-editor.org/search. -->
               This verification must be possible both from the local
               side and the remote side. I.e., users must be able to verify
               that the person called has engaged a secure media
-              mode (see <xref target="sec.malicious" format="default"/>). In order to achieve this it will be necessary to
+              mode (see <xref target="sec.malicious" format="default"/>). In order to achieve this, it will be necessary to
               cryptographically bind an indication of the local media
               access policy into the cryptographic authentication
               procedures detailed in the previous sections.
@@ -959,8 +967,8 @@ the title) for use on https://www.rfc-editor.org/search. -->
             measures you employ the person you are talking to might record
             the call and publish it on the Internet. Similarly, we do
             not attempt to prevent them from using voice or video processing
-            technology from hiding or changing their appearance.
-            While technologies (DRM, etc.) do exist to attempt to address
+            technology for hiding or changing their appearance.
+            While technologies (Digital Rights Management (DRM), etc.) do exist to attempt to address
             these issues, they are generally not compatible with open
             systems and WebRTC does not address them.
           </t>
@@ -979,20 +987,20 @@ the title) for use on https://www.rfc-editor.org/search. -->
           <name>Correlation of Anonymous Calls</name>
           <t>
             While persistent endpoint identifiers can be a useful security
-            feature (see <xref target="sec.key-continuity" format="default"/>) they can
+            feature (see <xref target="sec.key-continuity" format="default"/>), they can
             also represent a privacy threat in settings where the user
             wishes to be anonymous. WebRTC provides a number of possible
             persistent identifiers such as DTLS certificates
-            (if they are reused between connections) and RTCP CNAMES
+            (if they are reused between connections) and RTCP CNAMEs
             (if generated according to <xref target="RFC6222" format="default"/> rather
-            than the privacy preserving mode of <xref target="RFC7022" format="default"/>).
+            than the privacy-preserving mode of <xref target="RFC7022" format="default"/>).
             In order to prevent this type of correlation, browsers need to
             provide mechanisms to reset these identifiers (e.g., with the
             same lifetime as cookies). Moreover, the API should provide
             mechanisms to allow sites intended for anonymous calling
             to force the minting of fresh identifiers. In addition,
             IP addresses can be a source of call linkage
-            <xref target="RFCYYY3" format="default"/>.
+            <xref target="RFC8828" format="default"/>.
           </t>
         </section>
         <section numbered="true" toc="default">
@@ -1012,35 +1020,8 @@ the title) for use on https://www.rfc-editor.org/search. -->
       <t>This entire document is about security.</t>
     </section>
     <section numbered="true" toc="default">
-      <name>Acknowledgements</name>
-      <t>
-            <contact fullname="Bernard Aboba"/>, <contact fullname="Harald
-	    Alvestrand"/>, <contact fullname="Dan Druta"/>,
-            <contact fullname="Cullen Jennings"/>, <contact fullname="Alan
-	    Johnston"/>, <contact fullname="Hadriel Kaplan"/> (<xref
-	    target="sec.ice"/>), <contact fullname="Matthew Kaufman"/>,
-            <contact fullname="Martin Thomson"/>, <contact fullname="Magnus Westerlund"/>.
-      </t>
-
-    </section>
-    <section numbered="true" toc="default">
       <name>IANA Considerations</name>
-      <t>There are no IANA considerations.</t>
-    </section>
-    <section numbered="true" toc="default">
-      <name>Changes Since -04</name>
-      <ul spacing="normal">
-        <li>Replaced RTCWEB and RTC-Web with WebRTC, except when referring to the IETF WG</li>
-        <li>Removed discussion of the IFRAMEd advertisement case, since we decided not to
-          treat it specially.</li>
-        <li>Added a privacy section considerations section.</li>
-        <li>Significant edits to the SAS section to reflect Alan Johnston's comments.</li>
-        <li>Added some discussion if IP location privacy and Tor.</li>
-        <li>Updated the "communications consent" section to reflrect draft-ietf.</li>
-        <li>Added a section about "malicious peers".</li>
-        <li>Added a section describing screen sharing threats.</li>
-        <li>Assorted editorial changes.</li>
-      </ul>
+      <t>This document has no IANA actions.</t>
     </section>
   </middle>
   <back>
@@ -1073,45 +1054,44 @@ the title) for use on https://www.rfc-editor.org/search. -->
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7033.xml"/>
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7675.xml"/>
 
-<!-- draft-ietf-rtcweb-security-arch (RFC YYY2) -->
-        <reference anchor="RFCYYY2" target="https://www.rfc-editor.org/info/rfcYYY2">
-          <front>
-            <title>WebRTC Security Architecture</title>
-             <seriesInfo name="RFC" value="YYY2"/>
-             <seriesInfo name="DOI" value="10.17487/RFCYYY2"/>
-            <author initials="E" surname="Rescorla" fullname="Eric Rescorla">
-              <organization/>
-            </author>
-            <date month="May" year="2020"/>
-          </front>
-        </reference>
+ <!--draft-ietf-rtcweb-security-arch: 8827 -->
+ <reference anchor="RFC8827" target="https://www.rfc-editor.org/info/rfc8827">
+ <front>
+ <title>WebRTC Security Architecture</title>
+ <author initials='E.' surname='Rescorla' fullname='Eric Rescorla'>
+   <organization/>
+ </author>
+ <date month='December' year='2020'/>
+ </front>
+ <seriesInfo name="RFC" value="8827"/>
+ <seriesInfo name="DOI" value="10.17487/RFC8827"/>
+ </reference>
 
-<!-- draft-ietf-rtcweb-ip-handling (RFC YYY3) -->
-        <reference anchor="RFCYYY3" target="https://www.rfc-editor.org/info/rfcYYY3">
-          <front>
-            <title>WebRTC IP Address Handling Requirements</title>
-            <seriesInfo name="RFC" value="YYY3"/>
-            <seriesInfo name="DOI" value="10.17487/RFCYYY3"/>
-            <author initials="J." surname="Uberti" fullname="Justin Uberti">
-              <organization/>
-            </author>
-            <date month="May" year="2020"/>
-          </front>
-        </reference>
+<!-- draft-ietf-rtcweb-ip-handling: 8828 -->
+<reference anchor="RFC8828" target="https://www.rfc-editor.org/info/rfc8828">
+  <front>
+    <title>WebRTC IP Address Handling Requirements</title>
+    <author initials="J" surname="Uberti" fullname="Justin Uberti">
+      <organization />
+    </author>
+    <date month="December" year="2020" />
+  </front>
+  <seriesInfo name="RFC" value="8828" />
+  <seriesInfo name="DOI" value="10.17487/RFC8828"/>
+</reference>
 
-<!-- draft-ietf-rtcweb-overview (RFC YYY1) -->
-        <reference anchor="RFCYYY1" target="https://www.rfc-editor.org/info/rfcYYY1">
-          <front>
-            <title>Overview: Real-Time Protocols for Browser-Based
-	    Applications</title>
-            <seriesInfo name="RFC" value="YYY1"/>
-            <seriesInfo name="DOI" value="10.17487/RFCYYY1"/>
-            <author initials="H. T. " surname="Alvestrand" fullname="Harald Alvestrand">
-              <organization/>
-            </author>
-            <date month="May" year="2020"/>
-          </front>
-        </reference>
+<!-- draft-ietf-rtcweb-overview: RFC 8825 -->
+<reference anchor="RFC8825" target="https://www.rfc-editor.org/info/rfc8825">
+  <front>
+    <title>Overview: Real-Time Protocols for Browser-Based Applications</title>
+    <author initials="H." surname="Alvestrand" fullname="Harald T. Alvestrand">
+      <organization />
+    </author>
+    <date month="December" year="2020" />
+  </front>
+  <seriesInfo name="RFC" value="8825" />
+  <seriesInfo name="DOI" value="10.17487/RFC8825"/>
+</reference>
 
         <reference anchor="abarth-rtcweb" target="http://rtc-web.alvestrand.com/home/papers/barth-security-prompt.pdf?attredirects=0">
           <front>
@@ -1119,13 +1099,12 @@ the title) for use on https://www.rfc-editor.org/search. -->
             <author initials="A." surname="Barth">
               <organization/>
             </author>
-            <!-- Date from PDF properties -->
-            <date day="19" month="September" year="2010"/>
+            <date month="September" year="2010"/>
           </front>
-         <refcontent>RTC-Web Workshop</refcontent>
+          <refcontent>RTC-Web Workshop</refcontent>
         </reference>
 
-        <reference anchor="whitten-johnny">
+        <reference anchor="whitten-johnny" target="https://www.usenix.org/legacy/publications/library/proceedings/sec99/whitten.html">
           <front>
             <title>Why Johnny Can't Encrypt: A Usability Evaluation of PGP 5.0</title>
             <author initials="A." surname="Whitten">
@@ -1134,13 +1113,12 @@ the title) for use on https://www.rfc-editor.org/search. -->
             <author initials="J.D." surname="Tygar">
               <organization/>
             </author>
-            <!-- Date of USENIX Security Symposium -->
             <date month="August" year="1999"/>
           </front>
-         <refcontent>Proceedings of the 8th USENIX Security Symposium, 1999</refcontent>
+        <refcontent>Proceedings of the 8th USENIX Security Symposium</refcontent>
         </reference>
 
-        <reference anchor="cranor-wolf">
+        <reference anchor="cranor-wolf" target="https://www.usenix.org/legacy/event/sec09/tech/full_papers/sunshine.pdf">
           <front>
             <title>Crying Wolf: An Empirical Study of SSL Warning Effectiveness</title>
             <author initials="J." surname="Sunshine">
@@ -1155,46 +1133,33 @@ the title) for use on https://www.rfc-editor.org/search. -->
             <author initials="N." surname="Atri">
               <organization/>
             </author>
-            <author initials="L." surname="cranor">
+            <author initials="L." surname="Cranor">
               <organization/>
             </author>
-            <!-- Date of USENIX Security Symposium -->
             <date month="August" year="2009"/>
           </front>
-         <refcontent>Proceedings of the 18th USENIX Security Symposium, 2009</refcontent>
+        <refcontent>Proceedings of the 18th USENIX Security Symposium</refcontent>
         </reference>
 
-        <reference anchor="kain-conversion">
-          <front>
-            <title>Design and Evaluation of a Voice Conversion Algorithm based on Spectral Envelope Mapping and Residual Prediction</title>
-            <author initials="A." surname="Kain">
+        <reference anchor="deepfakes-ftc" target="https://www.theverge.com/2020/1/29/21080553/ftc-deepfakes-audio-cloning-joe-rogan-phone-scams">
+        <front>
+          <title>FTC says the tech behind audio deepfakes is getting better</title>
+          <author initials="K." surname="Lyons">
               <organization/>
             </author>
-            <author initials="M." surname="Macon">
-              <organization/>
-            </author>
-            <!-- Date of ICASSP 2001 -->
-            <date month="May" year="2001"/>
-          </front>
-         <refcontent>Proceedings of ICASSP, May 2001</refcontent>
-        </reference>
+            <date month="January" year="2020"/>
+            </front>
+          </reference>
 
-        <reference anchor="farus-conversion">
-          <front>
-            <title>Speaker Recognition Robustness to Voice Conversion</title>
-            <author initials="M." surname="Farrus">
-              <organization/>
+        <reference anchor="deepfakes-fraud" target="https://www.theverge.com/2019/9/5/20851248/deepfakes-ai-fake-audio-phone-calls-thieves-trick-companies-stealing-money">
+        <front>
+          <title>Thieves are now using AI deepfakes to trick companies into sending them money</title>
+          <author initials="N." surname="Statt">
+             <organization/>
             </author>
-            <author initials="D." surname="Erro">
-              <organization/>
-            </author>
-            <author initials="J." surname="Hernando">
-              <organization/>
-            </author>
-            <!-- Date from http://www.researchgate.net/publication/228819912 -->
-            <date month="January" year="2008"/>
-          </front>
-        </reference>
+            <date month="September" year="2019"/>
+            </front>
+          </reference>
 
         <reference anchor="huang-w2sp">
           <front>
@@ -1214,70 +1179,51 @@ the title) for use on https://www.rfc-editor.org/search. -->
             <author initials="C." surname="Jackson">
               <organization/>
             </author>
-            <!-- Date from PDF properties -->
             <date month="May" year="2011"/>
           </front>
-         <refcontent>W2SP, 2011</refcontent>
+          <refcontent>Web 2.0 Security and Privacy (W2SP 2011)</refcontent>
         </reference>
 
         <reference anchor="finer-grained">
           <front>
             <title>Beware of Finer-Grained Origins</title>
-            <author initials="A." surname="Barth">
-              <organization/>
-            </author>
             <author initials="C." surname="Jackson">
               <organization/>
             </author>
-            <!-- Date from PDF properties -->
+            <author initials="A." surname="Barth">
+              <organization/>
+            </author>
             <date month="July" year="2008"/>
           </front>
-         <refcontent>W2SP, 2008</refcontent>
+          <refcontent>Web 2.0 Security and Privacy (W2SP 2008)</refcontent>
         </reference>
 
-        <reference anchor="CORS" target="http://www.w3.org/TR/cors/">
-          <front>
-            <title>Cross-Origin Resource Sharing</title>
-            <author initials="A." surname="van Kesteren">
-              <organization/>
-            </author>
-            <!-- Date from http://www.w3.org/TR/2014/REC-cors-20140116/ -->
-            <date day="16" month="January" year="2014"/>
-          </front>
-        </reference>
-
-        <reference anchor="SWF" target="http://www.adobe.com/content/dam/Adobe/en/devnet/swf/pdf/swf_file_format_spec_v10.pdf">
+        <reference anchor="SWF" target="https://www.adobe.com/content/dam/acom/en/devnet/pdf/swf-file-format-spec.pdf">
           <front>
             <title>SWF File Format Specification Version 19</title>
-            <author surname="Adobe">
-              <organization/>
-            </author>
-            <!-- Date from PDF properties -->
-            <date day="23" month="April" year="2013"/>
+            <author/>
+            <date month="April" year="2013"/>
           </front>
         </reference>
 
-        <reference anchor="XmlHttpRequest" target="http://www.w3.org/TR/XMLHttpRequest/">
+        <reference anchor="Fingerprinting" target="https://www.w3.org/TR/fingerprinting-guidance/">
           <front>
-            <title>XMLHttpRequest Level 2</title>
+            <title>Mitigating Browser Fingerprinting in Web Specifications</title>
+            <author initials="N." surname="Doty" role="editor"/>
+            <date month="March" year="2019"/>
+          </front>
+        </reference>
+
+        <reference anchor="fetch" target=" https://fetch.spec.whatwg.org/">
+          <front>
+            <title>Fetch</title>
             <author initials="A." surname="van Kesteren">
               <organization/>
             </author>
-            <date day="17" month="January" year="2012"/>
           </front>
         </reference>
 
-        <reference anchor="Fingerprinting" target="https://www.w3.org/TR/fingerprinting-guidance/#acknowledgement/">
-          <front>
-            <title>Fingerprinting Guidance for Web Specification Authors (Draft)</title>
-            <author surname="W3C">
-              <organization/>
-            </author>
-            <date day="24" month="November" year="2013"/>
-          </front>
-        </reference>
-
-        <reference anchor="OpenID" target="https://openid.net/specs/openid-connect-core-1_0.html/">
+        <reference anchor="OpenID" target="https://openid.net/specs/openid-connect-core-1_0.html">
           <front>
             <title>OpenID Connect Core 1.0</title>
             <author initials="N." surname="Sakimura">
@@ -1295,10 +1241,22 @@ the title) for use on https://www.rfc-editor.org/search. -->
             <author initials="C." surname="Mortimore">
               <organization/>
             </author>
-            <date day="8" month="November" year="2014"/>
+            <date month="November" year="2014"/>
           </front>
         </reference>
       </references>
     </references>
+    <section numbered="false" toc="default">
+      <name>Acknowledgements</name>
+      <t>
+            <contact fullname="Bernard Aboba"/>, <contact fullname="Harald
+	    Alvestrand"/>, <contact fullname="Dan Druta"/>,
+            <contact fullname="Cullen Jennings"/>, <contact fullname="Alan
+	    Johnston"/>, <contact fullname="Hadriel Kaplan"/> (<xref
+	    target="sec.ice"/>), <contact fullname="Matthew Kaufman"/>,
+            <contact fullname="Martin Thomson"/>, <contact fullname="Magnus Westerlund"/>.
+      </t>
+
+    </section>
   </back>
 </rfc>
