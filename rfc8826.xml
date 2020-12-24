@@ -583,7 +583,7 @@
             of passive DTLS proxies of the type studied by Huang. However, because
             RTCWEB can run over TCP there is some concern that attackers might
             control the ciphertext by controlling the plaintext input to SCTP.
-            This risk is somewhat mitigated by the fact that the SCTP stack controls
+            This risk is only partially mitigated by the fact that the SCTP stack controls
             the framing of the packets.
           </t>
           <t>
