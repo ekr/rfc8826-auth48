@@ -601,6 +601,10 @@
         <section numbered="true" toc="default">
           <name>Backward Compatibility</name>
           <t>
+            Note: The RTCWEB WG ultimately decided to require ICE. This section
+            provides context for that decision.
+          </t>
+          <t>
             A requirement to use ICE limits compatibility with legacy non-ICE clients.
             It seems unsafe to completely remove the requirement for some check.
             All proposed checks have the common feature that the browser
